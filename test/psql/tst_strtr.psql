@@ -1,0 +1,13 @@
+/**
+ * Test strtr does not mix up parameters with nearly same name.
+ *
+ * @param int :p1   Parameter of type int.
+ * @param int :p100 Parameter of type int.
+ * @param int :p10  Parameter of type int.
+ *
+ * @type row1
+ */
+select :p1   as p1
+,      :p100 as p100a
+,      :p10  as p10
+,      :p100 as p100b

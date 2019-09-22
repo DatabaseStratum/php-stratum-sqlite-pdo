@@ -74,6 +74,19 @@ class DataLayerTest extends DataLayerTestCase
   }
 
   //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test strtr does not mix up parameters with nearly same name.
+   */
+  public function testStrtr()
+  {
+    $row = $this->dataLayer->tstStrtr(1, 100, 10);
+    self::assertSame(1, $row['p1']);
+    self::assertSame(100, $row['p100a']);
+    self::assertSame(10, $row['p10']);
+    self::assertSame(100, $row['p100b']);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
 }
 
 //----------------------------------------------------------------------------------------------------------------------

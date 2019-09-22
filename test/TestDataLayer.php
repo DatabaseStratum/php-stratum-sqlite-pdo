@@ -18,7 +18,7 @@ class TestDataLayer extends SqlitePdoDataLayer
    */
   public function tstMagicConstant01(): string
   {
-    $query   = <<< EOT
+    $query = <<< EOT
 select 'tst_magic_constant01';
 EOT;
     $query = str_repeat(PHP_EOL, 6).$query;
@@ -34,7 +34,7 @@ EOT;
    */
   public function tstMagicConstant02(): int
   {
-    $query   = <<< EOT
+    $query = <<< EOT
 select 7;
 EOT;
     $query = str_repeat(PHP_EOL, 6).$query;
@@ -50,7 +50,7 @@ EOT;
    */
   public function tstMagicConstant03(): string
   {
-    $query   = <<< EOT
+    $query = <<< EOT
 select '/home/water/Projects/SetBased/php-stratum-sqlite-pdo/test/psql/tst_magic_constant03.psql';
 EOT;
     $query = str_repeat(PHP_EOL, 6).$query;
@@ -66,7 +66,7 @@ EOT;
    */
   public function tstMagicConstant04(): string
   {
-    $query   = <<< EOT
+    $query = <<< EOT
 select '/home/water/Projects/SetBased/php-stratum-sqlite-pdo/test/psql';
 EOT;
     $query = str_repeat(PHP_EOL, 6).$query;
@@ -82,12 +82,36 @@ EOT;
    */
   public function tstMagicConstant05(): string
   {
-    $query   = <<< EOT
+    $query = <<< EOT
 select '/home/water/Projects/SetBased/php-stratum-sqlite-pdo/test/psql/ test_escape '' " @ $ ! .';
 EOT;
     $query = str_repeat(PHP_EOL, 6).$query;
 
     return $this->executeSingleton1($query);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test strtr.
+   *
+   * @param int|null $p1   Parameter of type int.
+   * @param int|null $p100 Parameter of type int.
+   * @param int|null $p10  Parameter of type int.
+   *
+   * @return array
+   */
+  public function tstStrtr(?int $p1, ?int $p100, ?int $p10): array
+  {
+    $replace = [':p1' => $this->quoteInt($p1), ':p100' => $this->quoteInt($p100), ':p10' => $this->quoteInt($p10)];
+    $query   = <<< EOT
+select :p1   as p1
+,      :p100 as p100a
+,      :p10  as p10
+,      :p100 as p100b
+EOT;
+    $query = str_repeat(PHP_EOL, 9).strtr($query, $replace);
+
+    return $this->executeRow1($query);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -125,7 +149,7 @@ EOT;
    */
   public function tstTestIllegalQuery(): array
   {
-    $query   = <<< EOT
+    $query = <<< EOT
 select *
 from DOES_NOT_EXISTS
 EOT;
@@ -141,7 +165,7 @@ EOT;
    */
   public function tstTestNoDocBlock(): array
   {
-    $query   = <<< EOT
+    $query = <<< EOT
 select 'This SP is a test for sources without a DocBlock'
 EOT;
     $query = str_repeat(PHP_EOL, 3).$query;
