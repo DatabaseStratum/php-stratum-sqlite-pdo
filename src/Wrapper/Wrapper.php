@@ -131,8 +131,12 @@ abstract class Wrapper
     if ($this->hasRoutineArgs())
     {
       $this->codeStore->append('$replace = '.$this->getRoutineArgs().';');
+      $this->codeStore->append('$query   = <<< EOT');
     }
-    $this->codeStore->append('$query   = <<< EOT');
+    else
+    {
+      $this->codeStore->append('$query = <<< EOT');
+    }
     $this->codeStore->append(rtrim($this->routine['source']));
     $this->codeStore->append('EOT;', false);
     if ($this->hasRoutineArgs())
