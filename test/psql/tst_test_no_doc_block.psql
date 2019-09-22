@@ -1,0 +1,4 @@
+/**
+ * @type row1
+ */
+select 'This SP is a test for sources without a DocBlock'

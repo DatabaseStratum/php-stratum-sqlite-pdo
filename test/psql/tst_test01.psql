@@ -1,0 +1,18 @@
+/**
+ * Test for all possible types of parameters including BLOBs.
+ *
+ * @param int  :p_tst_int  Parameter of type int.
+ * @param real :p_tst_real Parameter of type real.
+ * @param text :p_tst_text Parameter of type text.
+ * @param blob :p_tst_blob Parameter of type blob.
+ *
+ * @type none
+ */
+insert into TST_FOO1( tst_int
+,                     tst_real
+,                     tst_text
+,                     tst_blob )
+values( :p_tst_int
+,       :p_tst_real
+,       :p_tst_text
+,       :p_tst_blob )

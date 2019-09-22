@@ -1,0 +1,7 @@
+/**
+ * Test for illegal query.
+ *
+ * @type rows
+ */
+select *
+from DOES_NOT_EXISTS

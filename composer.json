@@ -1,0 +1,44 @@
+{
+  "name": "setbased/php-stratum-sqlite-pdo",
+  "description": "PhpStratum SQLite: A stored procedure loader and wrapper generator for SQLite",
+  "keywords": [
+    "PhpStratum",
+    "SQLite",
+    "Stored Routines",
+    "Stored Procedures",
+    "Stored Functions",
+    "Wrapper",
+    "Loader"
+  ],
+  "type": "tool",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.1.0",
+    "ext-json": "*",
+    "ext-pdo": "*",
+    "setbased/exception": "^1.0.0",
+    "setbased/helper-code-store-php": "^2.2.0",
+    "setbased/php-stratum-backend": "^4.0.0",
+    "setbased/php-stratum-common": "^4.0.0",
+    "setbased/php-stratum-middle": "^4.0.0",
+    "zendframework/zend-code": "^3.0.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.0.0 || ^8.0.0",
+    "phing/phing": "^2.0.0",
+    "setbased/php-stratum": "^4.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "SetBased\\Stratum\\SqlitePdo\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SetBased\\Stratum\\SqlitePdo\\Test\\": "test/"
+    }
+  },
+  "config": {
+    "bin-dir": "bin/"
+  }
+}

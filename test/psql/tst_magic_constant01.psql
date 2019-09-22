@@ -1,0 +1,7 @@
+/**
+ * Test for magic constant.
+ *
+ * @type   singleton1
+ * @return string
+ */
+select __ROUTINE__;

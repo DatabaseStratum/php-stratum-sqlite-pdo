@@ -1,0 +1,10 @@
+/**
+ * Test for designation type rows.
+ *
+ * @param int :p_count The number of rows selected.
+ *
+ * @type rows
+ */
+select *
+from TST_FOO2
+where tst_c00 <= :p_count

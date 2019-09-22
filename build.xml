@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="php-stratum-mysqli" default="build" basedir=".">
+    <target name="build">
+        <echo message="noting to do."/>
+    </target>
+
+    <!-- Run composer update -->
+    <target name="update">
+        <exec command="composer update" checkreturn="true" passthru="true"/>
+    </target>
+
+    <!-- Runs all unit tests -->
+    <target name="unit">
+        <exec command="cat test/ddl/mysql/0010_create_database.sql | mysql -v -u root" passthru="true" checkreturn="true"/>
+        <exec command="cat test/ddl/mysql/0020_create_user.sql     | mysql -v -u root" passthru="true" checkreturn="true"/>
+        <move file="test/psql/rename" tofile="test/psql/ test_escape ' &quot; @ $ ! ." overwrite="true" haltonerror="false"/>
+        <exec command="bin/phpunit" passthru="true" checkreturn="true"/>
+        <move file="test/psql/ test_escape ' &quot; @ $ ! ." tofile="test/psql/rename" overwrite="true"/>
+    </target>
+</project>

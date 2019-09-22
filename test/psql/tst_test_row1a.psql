@@ -1,0 +1,13 @@
+/**
+ * Test for designation type row1.
+ *
+ * @param int :p_count The number of rows selected.
+ *                     * 0 For a invalid test.
+ *                     * 1 For a valid test.
+ *                     * 2 For a invalid test.
+ *
+ * @type row1
+ */
+select *
+from TST_FOO2
+where tst_c00 <= :p_count

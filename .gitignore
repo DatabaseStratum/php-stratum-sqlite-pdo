@@ -1,0 +1,10 @@
+/.idea/
+/.phpunit.result.cache
+/bin/phing
+/bin/phpunit
+/bin/stratum
+/composer.lock
+/docs/
+/test/coverage.xml
+/test/report/
+/vendor/
