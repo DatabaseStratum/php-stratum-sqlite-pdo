@@ -215,6 +215,11 @@ class RoutineLoaderHelper
     {
       throw new RoutineLoaderException('Unable to find the designation type of the stored routine');
     }
+
+    if (!in_array($this->designationType, ['none', 'row0', 'row1', 'rows', 'singleton0', 'singleton1']))
+    {
+      throw new RoutineLoaderException("'%s' is not a valid designation type", $this->designationType);
+    }
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -530,17 +535,22 @@ class RoutineLoaderHelper
     }
 
     // Check and show warning if any parameters is missing in DocBlock.
-    $tmp = array_diff($database_parameters_names, $doc_block_parameters_names);
-    foreach ($tmp as $name)
+    $diff1 = array_diff($database_parameters_names, $doc_block_parameters_names);
+    foreach ($diff1 as $name)
     {
       $this->io->logNote('Parameter <dbo>%s</dbo> is missing from DocBlock', $name);
     }
 
     // Check and show warning if find unknown parameters in DocBlock.
-    $tmp = array_diff($doc_block_parameters_names, $database_parameters_names);
-    foreach ($tmp as $name)
+    $diff2 = array_diff($doc_block_parameters_names, $database_parameters_names);
+    foreach ($diff2 as $name)
     {
       $this->io->logNote('Unknown parameter <dbo>%s</dbo> found in the DocBlock', $name);
+    }
+
+    if (!empty($diff1) || !empty($diff2))
+    {
+      throw new RoutineLoaderException('Invalid parameter docblock');
     }
   }
 
