@@ -445,14 +445,12 @@ class RoutineLoaderHelper
    *
    * @param string $name The name of the parameter.
    *
-   * @return string|null
+   * @return string
    */
-  private function parameterType(string $name): ?string
+  private function parameterType(string $name): string
   {
-    $key = RowSetHelper::searchInRowSet($this->docBlockPartsSource['parameters'] ?? [], 'name', $name);
-    if ($key!==null) return $this->docBlockPartsSource['parameters'][$key]['type'];
-
-    return null;
+    $key = RowSetHelper::findInRowSet($this->docBlockPartsSource['parameters'], 'name', $name);
+    return $this->docBlockPartsSource['parameters'][$key]['type'];
   }
 
   //--------------------------------------------------------------------------------------------------------------------
