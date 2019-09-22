@@ -150,23 +150,6 @@ abstract class Wrapper
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Enhances the metadata of the parameters of the store routine wrapper.
-   *
-   * @param array[] $parameters The metadata of the parameters. For each parameter the
-   *                            following keys must be defined:
-   *                            <ul>
-   *                            <li> php_name    The name of the parader (including $).
-   *                            <li> description The description of the parameter.
-   *                            <li> php_type    The type of the parameter.
-   *                            </ul>
-   */
-  protected function enhancePhpDocParameters(array &$parameters): void
-  {
-    // Nothing to do.
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
    * Returns the return type the be used in the DocBlock.
    *
    * @return string
@@ -281,8 +264,6 @@ abstract class Wrapper
                        'description' => $parameter['description'],
                        'type'        => $parameter['type']];
     }
-
-    $this->enhancePhpDocParameters($parameters);
 
     if (!empty($parameters))
     {
