@@ -92,7 +92,7 @@ EOT;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Test strtr.
+   * Test strtr does not mix up parameters with nearly same name.
    *
    * @param int|null $p1   Parameter of type int.
    * @param int|null $p100 Parameter of type int.

@@ -63,6 +63,28 @@ class InitTest extends DataLayerTestCase
   }
 
   //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test constructor with integer.
+   */
+  public function testInt()
+  {
+    $this->expectException(\InvalidArgumentException::class);
+    $this->expectExceptionMessage('A integer is not a valid argument.');
+    new SqlitePdoDataLayer(123);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test constructor with an object that is not a \PDO object.
+   */
+  public function testObject()
+  {
+    $this->expectException(\InvalidArgumentException::class);
+    $this->expectExceptionMessage('A SetBased\Stratum\SqlitePdo\Test\InitTest is not a valid argument.');
+    new SqlitePdoDataLayer($this);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
 }
 
 //----------------------------------------------------------------------------------------------------------------------
