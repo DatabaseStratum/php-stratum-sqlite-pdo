@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace SetBased\Stratum\SqlitePdo\Backend;
 
-use SetBased\Stratum\Config;
-use SetBased\Stratum\StratumStyle;
+use SetBased\Stratum\Backend\Config;
+use SetBased\Stratum\Backend\StratumStyle;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 
 /**

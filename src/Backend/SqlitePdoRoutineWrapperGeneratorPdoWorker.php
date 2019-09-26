@@ -5,8 +5,8 @@ namespace SetBased\Stratum\SqlitePdo\Backend;
 
 use SetBased\Exception\RuntimeException;
 use SetBased\Helper\CodeStore\PhpCodeStore;
-use SetBased\Stratum\NameMangler\NameMangler;
-use SetBased\Stratum\RoutineWrapperGeneratorWorker;
+use SetBased\Stratum\Backend\RoutineWrapperGeneratorWorker;
+use SetBased\Stratum\Middle\NameMangler\NameMangler;
 use SetBased\Stratum\SqlitePdo\Wrapper\Wrapper;
 
 /**
@@ -72,7 +72,6 @@ class SqlitePdoRoutineWrapperGeneratorPdoWorker extends SqlitePdoWorker implemen
   private $wrapperFilename;
 
   //--------------------------------------------------------------------------------------------------------------------
-
   /**
    * @inheritdoc
    */

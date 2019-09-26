@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace SetBased\Stratum\SqlitePdo\Backend;
 
 use SetBased\Exception\RuntimeException;
-use SetBased\Stratum\Exception\RoutineLoaderException;
-use SetBased\Stratum\Helper\SourceFinderHelper;
-use SetBased\Stratum\NameMangler\NameMangler;
-use SetBased\Stratum\RoutineLoaderWorker;
+use SetBased\Stratum\Backend\RoutineLoaderWorker;
+use SetBased\Stratum\Common\Exception\RoutineLoaderException;
+use SetBased\Stratum\Common\Helper\SourceFinderHelper;
+use SetBased\Stratum\Middle\NameMangler\NameMangler;
 use SetBased\Stratum\SqlitePdo\Helper\RoutineLoaderHelper;
 
 /**

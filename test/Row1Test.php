@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace SetBased\Stratum\SqlitePdo\Test;
 
-use SetBased\Stratum\Exception\ResultException;
+use SetBased\Stratum\Middle\Exception\ResultException;
 
 /**
  * Test cases for stored routines with designation type row1.

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace SetBased\Stratum\SqlitePdo\Exception;
 
-use SetBased\Stratum\Exception\QueryErrorException;
+use SetBased\Stratum\Middle\Exception\QueryErrorException;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 
 /**
@@ -23,10 +23,10 @@ class SqlitePdoQueryErrorException extends SqlitePdoDataLayerException implement
   /**
    * Object constructor.
    *
-   * @param int    $errno The error code value of the error ($mysqli->errno).
-   * @param string $error Description of the last error ($mysqli->error).
+   * @param int    $errno  The error code value of the error ($mysqli->errno).
+   * @param string $error  Description of the last error ($mysqli->error).
    * @param string $method The name of the executed method.
-   * @param string $query The failed query.
+   * @param string $query  The failed query.
    */
   public function __construct(int $errno, string $error, string $method, string $query)
   {

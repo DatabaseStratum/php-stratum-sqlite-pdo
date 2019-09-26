@@ -5,7 +5,7 @@ namespace SetBased\Stratum\SqlitePdo\Wrapper;
 
 use SetBased\Exception\FallenException;
 use SetBased\Helper\CodeStore\PhpCodeStore;
-use SetBased\Stratum\NameMangler\NameMangler;
+use SetBased\Stratum\Middle\NameMangler\NameMangler;
 use SetBased\Stratum\SqlitePdo\Helper\DataTypeHelper;
 
 /**
@@ -43,7 +43,6 @@ abstract class Wrapper
   protected $routine;
 
   //--------------------------------------------------------------------------------------------------------------------
-
   /**
    * Object constructor.
    *

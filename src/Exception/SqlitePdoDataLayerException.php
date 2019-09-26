@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace SetBased\Stratum\SqlitePdo\Exception;
 
-use SetBased\Stratum\Exception\DataLayerException;
+use SetBased\Stratum\Middle\Exception\DataLayerException;
 
 /**
  * Exception for situations where the execution of a SQL query has failed.
@@ -41,7 +41,7 @@ class SqlitePdoDataLayerException extends \RuntimeException implements DataLayer
    * @param string|null $method The name of the executed method.
    * @param string|null $query  The executed query.
    */
-  public function __construct(string $code, string $error, ?string $method, ?string $query=null)
+  public function __construct(string $code, string $error, ?string $method, ?string $query = null)
   {
     parent::__construct(self::message($code, $error, $method, $query));
 

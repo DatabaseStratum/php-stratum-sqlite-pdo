@@ -6,7 +6,7 @@ namespace SetBased\Stratum\SqlitePdo;
 use SetBased\Abc\Helper\Cast;
 use SetBased\Exception\FallenException;
 use SetBased\Exception\LogicException;
-use SetBased\Stratum\Exception\ResultException;
+use SetBased\Stratum\Middle\Exception\ResultException;
 use SetBased\Stratum\SqlitePdo\Exception\SqlitePdoDataLayerException;
 
 /**

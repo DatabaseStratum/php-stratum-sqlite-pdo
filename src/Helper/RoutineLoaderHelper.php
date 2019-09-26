@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace SetBased\Stratum\SqlitePdo\Helper;
 
-use SetBased\Stratum\Exception\RoutineLoaderException;
-use SetBased\Stratum\Helper\RowSetHelper;
+use SetBased\Stratum\Backend\StratumStyle;
+use SetBased\Stratum\Common\Exception\RoutineLoaderException;
+use SetBased\Stratum\Middle\Helper\RowSetHelper;
 use SetBased\Stratum\SqlitePdo\Reflection\ParamTag;
 use SetBased\Stratum\SqlitePdo\SqlitePdoDataLayer;
-use SetBased\Stratum\StratumStyle;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Zend\Code\Reflection\DocBlock\Tag\GenericTag;
 use Zend\Code\Reflection\DocBlock\Tag\ReturnTag;
@@ -140,7 +140,6 @@ class RoutineLoaderHelper
   private $sourceFilename;
 
   //--------------------------------------------------------------------------------------------------------------------
-
   /**
    * Object constructor.
    *
@@ -450,6 +449,7 @@ class RoutineLoaderHelper
   private function parameterType(string $name): string
   {
     $key = RowSetHelper::findInRowSet($this->docBlockPartsSource['parameters'], 'name', $name);
+
     return $this->docBlockPartsSource['parameters'][$key]['type'];
   }
 

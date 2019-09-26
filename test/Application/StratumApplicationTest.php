@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace SetBased\Stratum\SqlitePdo\Test\Application;
 
 use PHPUnit\Framework\TestCase;
-use SetBased\Stratum\Application\Stratum;
+use SetBased\Stratum\Frontend\Application\Stratum;
 use Symfony\Component\Console\Tester\ApplicationTester;
 
 /**
