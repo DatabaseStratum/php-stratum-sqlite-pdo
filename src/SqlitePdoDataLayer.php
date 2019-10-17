@@ -22,35 +22,53 @@ class SqlitePdoDataLayer
    */
   private $db;
 
+  /**
+   * The path to the SQLite database.
+   *
+   * @var string
+   */
+  private $path;
+
+  /**
+   * If true the database will be volatile. That is, the database file be deleted before opening and closing the
+   * database.
+   *
+   * @var bool
+   */
+  private $volatile;
+
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Object constructor.
    *
-   * @param mixed $db
+   * @param mixed       $db       Either null, a string or a \PDO object.
+   *                              <ul>
+   *                              <li>null:   The database will be an in memory database.
+   *                              <li>string: The path the to database.
+   *                              <li>\PDO:   A \PDO SQLite connection.
+   *                              </ul>
+   * @param string|null $script   The path to a SQL script for initializing the database. This script will only run
+   *                              against a new database.
+   * @param bool        $volatile Only applies when $db is a string. If true the database will be volatile. That is, the
+   *                              database file be deleted before opening and closing the database.
    */
-  public function __construct($db = null)
+  public function __construct($db = null, ?string $script = null, bool $volatile = false)
   {
     switch (true)
     {
       case $db===null:
         // Use in memory database.
-        $this->db = new \PDO('sqlite::memory:');
+        $this->initMemory($script);
         break;
 
       case is_string($db):
         // Argument is path to database.
-        if ($db==='') throw new \InvalidArgumentException('Expecting a non empty path');
-        $this->db = new \PDO('sqlite:'.$db);
+        $this->initFile($db, $script, $volatile);
         break;
 
       case is_a($db, \PDO::class):
         // Argument is a PDO SQLite connection.
-        $driver = $db->getAttribute(\PDO::ATTR_DRIVER_NAME);
-        if ($driver!=='sqlite')
-        {
-          throw new \InvalidArgumentException(sprintf('Expecting a SQLite driver. Got a %s driver.', $driver));
-        }
-        $this->db = $db;
+        $this->initConnection($db);
         break;
 
       default:
@@ -63,6 +81,15 @@ class SqlitePdoDataLayer
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Object destructor.
+   */
+  public function __destruct()
+  {
+    $this->close();
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Closes the connection to the SQLite database.
    *
    * PDO closes a database only when there no references to the database. Hence, when a \PDO object has been passed to
@@ -71,7 +98,14 @@ class SqlitePdoDataLayer
    */
   public function close()
   {
-    $this->db = null;
+    if ($this->db!==null)
+    {
+      $this->db = null;
+      if ($this->volatile && $this->path!==null)
+      {
+        unlink($this->path);
+      }
+    }
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -79,7 +113,7 @@ class SqlitePdoDataLayer
    * Creates a table.
    *
    * @param string   $table   The name of the table.
-   * @param string[] $columns The the table columns.
+   * @param string[] $columns The table columns.
    */
   public function createTable(string $table, array $columns): void
   {
@@ -484,6 +518,72 @@ class SqlitePdoDataLayer
     if ($value===null || trim($value)==='') return 'null';
 
     return ($value===null || $value==='') ? 'null' : $this->db->quote($value);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Initializes this object using a PDO SQLite connection
+   *
+   * @param \PDO $db The PDO SQLite connection.
+   */
+  private function initConnection(\PDO $db): void
+  {
+    $driver = $db->getAttribute(\PDO::ATTR_DRIVER_NAME);
+    if ($driver!=='sqlite')
+    {
+      throw new \InvalidArgumentException(sprintf('Expecting a SQLite driver. Got a %s driver.', $driver));
+    }
+    $this->db       = $db;
+    $this->volatile = false;
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Initializes this object using a path to a database.
+   *
+   * @param string      $db       The path the to database.
+   * @param string|null $script   The path to a SQL script for initializing the database. This script will only run
+   *                              against a new database.
+   * @param bool        $volatile If true the database will be volatile
+   */
+  private function initFile(string $db, ?string $script, bool $volatile): void
+  {
+    if ($db==='')
+    {
+      throw new \InvalidArgumentException('Expecting a non empty path.');
+    }
+
+    $exists = is_file($db);
+    if ($volatile and $exists)
+    {
+      unlink($db);
+    }
+
+    $this->db       = new \PDO('sqlite:'.$db);
+    $this->path     = realpath($db);
+    $this->volatile = $volatile;
+
+    if (!$exists && $script!==null)
+    {
+      $this->executeNoneMulti(file_get_contents($script));
+    }
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Initializes this object using a in memory SQLite database.
+   *
+   * @param string|null $script The path to a SQL script for initializing the database.
+   */
+  private function initMemory(?string $script): void
+  {
+    $this->db       = new \PDO('sqlite::memory:');
+    $this->volatile = true;
+
+    if ($script!==null)
+    {
+      $this->executeNoneMulti(file_get_contents($script));
+    }
   }
 
   //--------------------------------------------------------------------------------------------------------------------
