@@ -454,6 +454,9 @@ class SqlitePdoDataLayer
    * Returns the ID of the last inserted row.
    *
    * @return int
+   *
+   * @since 1.0.0
+   * @api
    */
   public function lastInsertId(): int
   {

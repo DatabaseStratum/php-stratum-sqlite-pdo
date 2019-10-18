@@ -160,6 +160,27 @@ EOT;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Test case for designation type lastIncrementId.
+   *
+   * @param string|null $pTstTest Some value.
+   *
+   * @return int
+   */
+  public function tstTestLastIncrementId(?string $pTstTest): int
+  {
+    $replace = [':p_tst_test' => $this->quoteString($pTstTest)];
+    $query   = <<< EOT
+insert into TST_LAST_INCREMENT_ID( tst_test )
+values( :p_tst_test )
+EOT;
+    $query = str_repeat(PHP_EOL, 7).strtr($query, $replace);
+    $this->executeNone($query);
+
+    return $this->lastInsertId();
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    *
    * @return array
    */

@@ -1,0 +1,9 @@
+/**
+ * Test case for designation type lastIncrementId.
+ *
+ * @param varchar :p_tst_test Some value.
+ *
+ * @type lastInsertId
+ */
+insert into TST_LAST_INCREMENT_ID( tst_test )
+values( :p_tst_test )

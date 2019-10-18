@@ -71,6 +71,10 @@ abstract class Wrapper
   {
     switch ($routine['designation'])
     {
+      case 'lastInsertId':
+        $wrapper = new LastInsertIdWrapper($routine, $codeStore, $nameMangler);
+        break;
+
       case 'none':
         $wrapper = new NoneWrapper($routine, $codeStore, $nameMangler);
         break;
