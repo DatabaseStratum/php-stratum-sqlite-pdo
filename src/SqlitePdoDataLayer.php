@@ -37,7 +37,6 @@ class SqlitePdoDataLayer
   private $volatile;
 
   //--------------------------------------------------------------------------------------------------------------------
-
   /**
    * Object constructor.
    *
@@ -438,26 +437,11 @@ class SqlitePdoDataLayer
    *
    * @return string
    */
-  public function quoteBinary(?string $value): string
+  public function quoteBlob(?string $value): string
   {
     if ($value===null || $value==='') return 'null';
 
     return "X'".bin2hex($value)."'";
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * Returns a literal for a float value that can be safely used in SQL statements.
-   *
-   * @param float|null $value The float value.
-   *
-   * @return string
-   */
-  public function quoteFloat(?float $value): string
-  {
-    if ($value===null) return 'null';
-
-    return (string)$value;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -477,13 +461,28 @@ class SqlitePdoDataLayer
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Returns a literal for a float value that can be safely used in SQL statements.
+   *
+   * @param float|null $value The float value.
+   *
+   * @return string
+   */
+  public function quoteReal(?float $value): string
+  {
+    if ($value===null) return 'null';
+
+    return (string)$value;
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Returns a literal for a string value that can be safely used in SQL statements.
    *
    * @param string|null $value The value.
    *
    * @return string
    */
-  public function quoteString(?string $value): string
+  public function quoteVarchar(?string $value): string
   {
     return ($value===null || $value==='') ? 'null' : $this->db->quote($value);
   }
@@ -558,7 +557,7 @@ class SqlitePdoDataLayer
   /**
    * Executes a query.
    *
-   * @param string $query The query.
+   * @param string     $query      The query.
    * @param array|null $parameters The parameters (i.e. replace pairs) of the query.
    *
    * @return \PDOStatement
@@ -596,15 +595,15 @@ class SqlitePdoDataLayer
         return $this->quoteInt($value);
 
       case 'varchar':
-        return $this->quoteString($value);
+        return $this->quoteVarchar($value);
 
       case 'text':
       case 'blob':
       case 'null':
-        return $this->quoteBinary($value);
+        return $this->quoteBlob($value);
 
       case 'real':
-        return $this->quoteFloat($value);
+        return $this->quoteReal($value);
 
       default:
         throw new FallenException('type', $column['type']);

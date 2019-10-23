@@ -387,7 +387,7 @@ class RoutineLoaderHelper
     // Replace all place holders with their values.
     foreach ($lines as $i => &$line)
     {
-      $this->replace['__LINE__'] = $i + $this->offset + 1;
+      $this->replace['__LINE__'] = $this->db->quoteInt($i + $this->offset + 1);
       $line                      = strtr($line, $this->replace);
     }
     $this->routinePayLoad = implode(PHP_EOL, $lines);
@@ -476,9 +476,9 @@ class RoutineLoaderHelper
   {
     $real_path = realpath($this->sourceFilename);
 
-    $this->replace['__FILE__']    = $this->db->quoteString($real_path);
-    $this->replace['__ROUTINE__'] = $this->db->quoteString($this->routineName);
-    $this->replace['__DIR__']     = $this->db->quoteString(dirname($real_path));
+    $this->replace['__FILE__']    = $this->db->quoteVarchar($real_path);
+    $this->replace['__ROUTINE__'] = $this->db->quoteVarchar($this->routineName);
+    $this->replace['__DIR__']     = $this->db->quoteVarchar(dirname($real_path));
   }
 
   //--------------------------------------------------------------------------------------------------------------------

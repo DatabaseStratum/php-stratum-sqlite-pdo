@@ -10,25 +10,25 @@ class DataLayerTest extends DataLayerTestCase
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Tests for quoteFloat.
+   * Tests for quoteReal.
    */
   public function testQuoteFloat1()
   {
     $value    = 123.123;
     $expected = '123.123';
-    self::assertSame($expected, $this->dataLayer->quoteFloat($value), var_export($value, true));
+    self::assertSame($expected, $this->dataLayer->quoteReal($value), var_export($value, true));
 
     $value    = 123.123;
     $expected = '123.123';
-    self::assertSame($expected, $this->dataLayer->quoteFloat($value), var_export($value, true));
+    self::assertSame($expected, $this->dataLayer->quoteReal($value), var_export($value, true));
 
     $value    = 0.0;
     $expected = '0';
-    self::assertSame($expected, $this->dataLayer->quoteFloat($value), var_export($value, true));
+    self::assertSame($expected, $this->dataLayer->quoteReal($value), var_export($value, true));
 
     $value    = null;
     $expected = 'null';
-    self::assertSame($expected, $this->dataLayer->quoteFloat($value), var_export($value, true));
+    self::assertSame($expected, $this->dataLayer->quoteReal($value), var_export($value, true));
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -52,25 +52,25 @@ class DataLayerTest extends DataLayerTestCase
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Tests for quoteString.
+   * Tests for quoteVarchar.
    */
   public function testQuoteString1()
   {
     $value    = '123';
     $expected = "'123'";
-    self::assertSame($expected, $this->dataLayer->quoteString($value), var_export($value, true));
+    self::assertSame($expected, $this->dataLayer->quoteVarchar($value), var_export($value, true));
 
     $value    = '0';
     $expected = "'0'";
-    self::assertSame($expected, $this->dataLayer->quoteString($value), var_export($value, true));
+    self::assertSame($expected, $this->dataLayer->quoteVarchar($value), var_export($value, true));
 
     $value    = '';
     $expected = 'null';
-    self::assertSame($expected, $this->dataLayer->quoteString($value), var_export($value, true));
+    self::assertSame($expected, $this->dataLayer->quoteVarchar($value), var_export($value, true));
 
     $value    = null;
     $expected = 'null';
-    self::assertSame($expected, $this->dataLayer->quoteString($value), var_export($value, true));
+    self::assertSame($expected, $this->dataLayer->quoteVarchar($value), var_export($value, true));
   }
 
   //--------------------------------------------------------------------------------------------------------------------

@@ -125,7 +125,7 @@ EOT;
    */
   public function tstTest01(?int $pTstInt, ?float $pTstReal, ?string $pTstText, ?string $pTstBlob): void
   {
-    $replace = [':p_tst_int' => $this->quoteInt($pTstInt), ':p_tst_real' => $this->quoteFloat($pTstReal), ':p_tst_text' => $this->quoteString($pTstText), ':p_tst_blob' => $this->quoteBinary($pTstBlob)];
+    $replace = [':p_tst_int' => $this->quoteInt($pTstInt), ':p_tst_real' => $this->quoteReal($pTstReal), ':p_tst_text' => $this->quoteVarchar($pTstText), ':p_tst_blob' => $this->quoteBlob($pTstBlob)];
     $query   = <<< EOT
 insert into TST_FOO1( tst_int
 ,                     tst_real
@@ -168,7 +168,7 @@ EOT;
    */
   public function tstTestLastIncrementId(?string $pTstTest): int
   {
-    $replace = [':p_tst_test' => $this->quoteString($pTstTest)];
+    $replace = [':p_tst_test' => $this->quoteVarchar($pTstTest)];
     $query   = <<< EOT
 insert into TST_LAST_INCREMENT_ID( tst_test )
 values( :p_tst_test )

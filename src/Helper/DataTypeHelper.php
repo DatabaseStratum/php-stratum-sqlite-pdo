@@ -73,17 +73,17 @@ class DataTypeHelper
       case 'float':
       case 'double':
       case 'real':
-        $ret = '$this->quoteFloat('.$expression.")";
+        $ret = '$this->quoteReal('.$expression.")";
         break;
 
       case 'varchar':
       case 'string':
       case 'text':
-        $ret = '$this->quoteString('.$expression.")";
+        $ret = '$this->quoteVarchar('.$expression.")";
         break;
 
       case 'blob':
-        $ret = '$this->quoteBinary('.$expression.")";
+        $ret = '$this->quoteBlob('.$expression.")";
         break;
 
       default:
