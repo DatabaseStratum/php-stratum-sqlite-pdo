@@ -485,8 +485,6 @@ class SqlitePdoDataLayer
    */
   public function quoteString(?string $value): string
   {
-    if ($value===null || trim($value)==='') return 'null';
-
     return ($value===null || $value==='') ? 'null' : $this->db->quote($value);
   }
 
@@ -601,11 +599,6 @@ class SqlitePdoDataLayer
         return $this->quoteString($value);
 
       case 'text':
-        $value = Cast::toOptString($value);
-        if ($value!==null) $value = trim($value);
-
-        return ($value===null || $value==='') ? 'null' : $this->db->quote($value);
-
       case 'blob':
       case 'null':
         return $this->quoteBinary($value);
