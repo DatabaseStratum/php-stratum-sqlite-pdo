@@ -33,7 +33,14 @@ class Row0Wrapper extends Wrapper
   protected function writeResultHandler(): void
   {
     $this->codeStore->append('');
-    $this->codeStore->append('return $this->executeRow0($query);');
+    if ($this->hasRoutineArgs())
+    {
+      $this->codeStore->append('return $this->executeRow0($query, $replace);');
+    }
+    else
+    {
+      $this->codeStore->append('return $this->executeRow0($query);');
+    }
   }
 
   //--------------------------------------------------------------------------------------------------------------------

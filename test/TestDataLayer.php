@@ -109,9 +109,9 @@ select :p1   as p1
 ,      :p10  as p10
 ,      :p100 as p100b
 EOT;
-    $query = str_repeat(PHP_EOL, 9).strtr($query, $replace);
+    $query = str_repeat(PHP_EOL, 9).$query;
 
-    return $this->executeRow1($query);
+    return $this->executeRow1($query, $replace);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -136,9 +136,9 @@ values( :p_tst_int
 ,       :p_tst_text
 ,       :p_tst_blob )
 EOT;
-    $query = str_repeat(PHP_EOL, 10).strtr($query, $replace);
+    $query = str_repeat(PHP_EOL, 10).$query;
 
-    $this->executeNone($query);
+    $this->executeNone($query, $replace);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -173,9 +173,9 @@ EOT;
 insert into TST_LAST_INCREMENT_ID( tst_test )
 values( :p_tst_test )
 EOT;
-    $query = str_repeat(PHP_EOL, 7).strtr($query, $replace);
-    $this->executeNone($query);
+    $query = str_repeat(PHP_EOL, 7).$query;
 
+    $this->executeNone($query, $replace);
     return $this->lastInsertId();
   }
 
@@ -210,9 +210,9 @@ select *
 from TST_FOO2
 where tst_c00 <= :p_count
 EOT;
-    $query = str_repeat(PHP_EOL, 10).strtr($query, $replace);
+    $query = str_repeat(PHP_EOL, 10).$query;
 
-    return $this->executeRow0($query);
+    return $this->executeRow0($query, $replace);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -231,9 +231,9 @@ select *
 from TST_FOO2
 where tst_c00 <= :p_count
 EOT;
-    $query = str_repeat(PHP_EOL, 10).strtr($query, $replace);
+    $query = str_repeat(PHP_EOL, 10).$query;
 
-    return $this->executeRow1($query);
+    return $this->executeRow1($query, $replace);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -252,9 +252,9 @@ select *
 from TST_FOO2
 where tst_c00 <= :p_count
 EOT;
-    $query = str_repeat(PHP_EOL, 7).strtr($query, $replace);
+    $query = str_repeat(PHP_EOL, 7).$query;
 
-    return $this->executeRows($query);
+    return $this->executeRows($query, $replace);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -273,9 +273,9 @@ select 1
 from TST_FOO2
 where tst_c00 <= :p_count
 EOT;
-    $query = str_repeat(PHP_EOL, 11).strtr($query, $replace);
+    $query = str_repeat(PHP_EOL, 11).$query;
 
-    return $this->executeSingleton0($query);
+    return $this->executeSingleton0($query, $replace);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -295,9 +295,9 @@ select :p_value
 from TST_FOO2
 where tst_c00 <= :p_count
 EOT;
-    $query = str_repeat(PHP_EOL, 12).strtr($query, $replace);
+    $query = str_repeat(PHP_EOL, 12).$query;
 
-    return !empty($this->executeSingleton0($query));
+    return !empty($this->executeSingleton0($query, $replace));
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -316,9 +316,9 @@ select 1
 from TST_FOO2
 where tst_c00 <= :p_count
 EOT;
-    $query = str_repeat(PHP_EOL, 11).strtr($query, $replace);
+    $query = str_repeat(PHP_EOL, 11).$query;
 
-    return $this->executeSingleton1($query);
+    return $this->executeSingleton1($query, $replace);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -338,9 +338,9 @@ select :p_value
 from TST_FOO2
 where tst_c00 <= :p_count
 EOT;
-    $query = str_repeat(PHP_EOL, 12).strtr($query, $replace);
+    $query = str_repeat(PHP_EOL, 12).$query;
 
-    return !empty($this->executeSingleton1($query));
+    return !empty($this->executeSingleton1($query, $replace));
   }
 
   //--------------------------------------------------------------------------------------------------------------------

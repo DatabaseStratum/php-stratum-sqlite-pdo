@@ -142,14 +142,7 @@ abstract class Wrapper
     }
     $this->codeStore->append(rtrim($this->routine['source']));
     $this->codeStore->append('EOT;', false);
-    if ($this->hasRoutineArgs())
-    {
-      $this->codeStore->append('$query = str_repeat(PHP_EOL, '.$this->routine['offset'].').strtr($query, $replace);');
-    }
-    else
-    {
-      $this->codeStore->append('$query = str_repeat(PHP_EOL, '.$this->routine['offset'].').$query;');
-    }
+    $this->codeStore->append('$query = str_repeat(PHP_EOL, '.$this->routine['offset'].').$query;');
     $this->writeResultHandler();
     $this->codeStore->append('}');
     $this->codeStore->append('');
@@ -197,6 +190,17 @@ abstract class Wrapper
     }
 
     return $ret;
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Returns true if and only if the routines has arguments.
+   *
+   * @return bool
+   */
+  protected function hasRoutineArgs(): bool
+  {
+    return !empty($this->routine['phpdoc']['parameters']);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -341,17 +345,6 @@ abstract class Wrapper
     $ret .= ']';
 
     return $ret;
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * Returns true if and only if the routines has arguments.
-   *
-   * @return bool
-   */
-  private function hasRoutineArgs(): bool
-  {
-    return !empty($this->routine['phpdoc']['parameters']);
   }
 
   //--------------------------------------------------------------------------------------------------------------------

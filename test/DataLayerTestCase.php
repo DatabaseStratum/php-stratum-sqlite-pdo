@@ -19,14 +19,20 @@ class DataLayerTestCase extends TestCase
   protected $dataLayer;
 
   //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Creates the database.
+   */
   public function setUp(): void
   {
     $this->dataLayer = new TestDataLayer();
 
-    $this->dataLayer->executeNoneMulti(file_get_contents('test/ddl/0100_create_tables.sql'));
+    $this->dataLayer->executeNone(file_get_contents('test/ddl/0100_create_tables.sql'));
   }
 
   //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Destroys the database.
+   */
   public function tearDown(): void
   {
     $this->dataLayer = null;

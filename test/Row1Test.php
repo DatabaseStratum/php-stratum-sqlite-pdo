@@ -41,6 +41,47 @@ class Row1Test extends DataLayerTestCase
   }
 
   //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test with multiple queries on multiple lines.
+   */
+  public function testMultiQueriesMultipleLines()
+  {
+    $queries = <<< EOT
+drop table if exists TST_FOOBAR;
+-- This is a comment with a ; but not a the end.
+delete from TST_FOO1 where tst_text = ';';
+select 4 as 'four';
+EOT;
+
+    $row = $this->dataLayer->executeRow1($queries);
+    self::assertSame(4, $row['four']);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test with multiple queries on multiple lines.
+   */
+  public function testSingleQueryWithSemiColon()
+  {
+    $queries = 'select 1 as one;';
+
+    $row = $this->dataLayer->executeRow1($queries);
+    self::assertSame(1, $row['one']);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test with multiple queries on multiple lines.
+   */
+  public function testSingleQueryWithoutSemiColon()
+  {
+    $queries = 'select 1 as one';
+
+    $row = $this->dataLayer->executeRow1($queries);
+    self::assertSame(1, $row['one']);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
 }
 
 //----------------------------------------------------------------------------------------------------------------------

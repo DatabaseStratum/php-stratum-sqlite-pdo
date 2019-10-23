@@ -5,7 +5,6 @@ namespace SetBased\Stratum\SqlitePdo;
 
 use SetBased\Abc\Helper\Cast;
 use SetBased\Exception\FallenException;
-use SetBased\Exception\LogicException;
 use SetBased\Stratum\Middle\Exception\ResultException;
 use SetBased\Stratum\SqlitePdo\Exception\SqlitePdoDataLayerException;
 
@@ -38,6 +37,7 @@ class SqlitePdoDataLayer
   private $volatile;
 
   //--------------------------------------------------------------------------------------------------------------------
+
   /**
    * Object constructor.
    *
@@ -110,58 +110,55 @@ class SqlitePdoDataLayer
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Executes a query that does not select any rows.
+   * Executes multiple queries.
    *
-   * @param string $query The SQL statement.
+   * Comments are allowed and may contain
+   *
+   * @param string     $queries    The SQL statements.
+   * @param array|null $parameters The parameters (i.e. replace pairs) of the query.
+   *
+   * @return string The last query.
    */
-  public function executeNone(string $query): void
+  public function executeLeadingQueries(string $queries, ?array $parameters): string
   {
-    $this->query($query);
+    $parts     = preg_split('/;[ \t\f\h]*\R/', $queries.PHP_EOL, -1, PREG_SPLIT_OFFSET_CAPTURE);
+    $lineCount = 1;
+
+    if (sizeof($parts)==1)
+    {
+      $last = array_pop($parts);
+    }
+    else
+    {
+      $last = array_pop($parts);
+      // If part does not end with semicolon the part is a comment at the end of the file.
+      if (substr($queries, $last[1] + strlen($last[0]), 1)!==';')
+      {
+        $last = array_pop($parts);
+      }
+    }
+
+    foreach ($parts as $part)
+    {
+      $query = $part[0];
+      $this->query($query, $parameters);
+      $lineCount += substr_count($query, PHP_EOL) + 1;
+    }
+
+    return str_repeat(PHP_EOL, $lineCount).$last[0];
   }
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Executes multiple queries.
+   * Executes a query that does not select any rows.
    *
-   * Note: The \PDO driver does not have a native function for executing multiple SQL statements. Statements are
-   * separated by a semicolon followed by a new line or EOF.
-   *
-   * Comments are allowed and may contain
-   *
-   * @param string $queries The SQL statements.
-   *
-   * @return int The number of executes queries.
+   * @param string     $query      The SQL statement.
+   * @param array|null $parameters The parameters (i.e. replace pairs) of the query.
    */
-  public function executeNoneMulti(string $queries): int
+  public function executeNone(string $query, ?array $parameters = null): void
   {
-    $parts     = preg_split('/(;)[ \t\f\h]*\R/', $queries.PHP_EOL, -1, PREG_SPLIT_OFFSET_CAPTURE);
-    $lineCount = 1;
-
-    $count = 0;
-    foreach ($parts as $part)
-    {
-      $query = $part[0];
-      // If part does not end with semicolon the part is a comment at the end of the file.
-      if (mb_substr($queries, $part[1] + mb_strlen($query), 1)==';')
-      {
-        $statement = $this->db->query($query);
-        if ($statement===false)
-        {
-          preg_match('/^(\s*)/', $query, $parts);
-          $lineCount += substr_count($parts[1], PHP_EOL);
-
-          $message = sprintf("%s, at line %d.", ($this->db->errorInfo())[2], $lineCount);
-
-          throw new SqlitePdoDataLayerException($this->db->errorCode(), $message, null, trim($query));
-        }
-
-        $count++;
-      }
-
-      $lineCount += substr_count($query, PHP_EOL) + 1;
-    }
-
-    return $count;
+    $last = $this->executeLeadingQueries($query, $parameters);
+    $this->query($last, $parameters);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -169,16 +166,17 @@ class SqlitePdoDataLayer
    * Executes a query that returns 1 and only 1 row.
    * Throws an exception if the query selects none, 2 or more rows.
    *
-   * @param string $query The SQL statement.
+   * @param string     $query      The SQL statement.
+   * @param array|null $parameters The parameters (i.e. replace pairs) of the query.
    *
    * @return array The selected row.
    *
    * @since 1.0.0
    * @api
    */
-  public function executeRow0(string $query): ?array
+  public function executeRow0(string $query, ?array $parameters = null): ?array
   {
-    $rows = $this->executeRows($query);
+    $rows = $this->executeRows($query, $parameters);
     $n    = count($rows);
 
     switch ($n)
@@ -199,16 +197,17 @@ class SqlitePdoDataLayer
    * Executes a query that returns 1 and only 1 row.
    * Throws an exception if the query selects none, 2 or more rows.
    *
-   * @param string $query The SQL statement.
+   * @param string     $query      The SQL statement.
+   * @param array|null $parameters The parameters (i.e. replace pairs) of the query.
    *
    * @return array The selected row.
    *
    * @since 1.0.0
    * @api
    */
-  public function executeRow1(string $query): array
+  public function executeRow1(string $query, ?array $parameters = null): array
   {
-    $rows = $this->executeRows($query);
+    $rows = $this->executeRows($query, $parameters);
     $n    = count($rows);
     if ($n!=1)
     {
@@ -222,13 +221,15 @@ class SqlitePdoDataLayer
   /**
    * Executes a query that returns 0 or more rows.
    *
-   * @param string $query The SQL statement.
+   * @param string     $query      The SQL statement.
+   * @param array|null $parameters The parameters (i.e. replace pairs) of the query.
    *
    * @return array[] The selected rows.
    */
-  public function executeRows(string $query): array
+  public function executeRows(string $query, ?array $parameters = null): array
   {
-    $statement = $this->query($query);
+    $last      = $this->executeLeadingQueries($query, $parameters);
+    $statement = $this->query($last, $parameters);
 
     $types = [];
     for ($i = 0; $i<$statement->columnCount(); $i++)
@@ -267,16 +268,17 @@ class SqlitePdoDataLayer
    * Executes a query that returns 0 or 1 row with one column.
    * Throws an exception if the query selects 2 or more rows.
    *
-   * @param string $query The SQL statement.
+   * @param string     $query      The SQL statement.
+   * @param array|null $parameters The parameters (i.e. replace pairs) of the query.
    *
    * @return mixed The selected value.
    *
    * @since 1.0.0
    * @api
    */
-  public function executeSingleton0(string $query)
+  public function executeSingleton0(string $query, ?array $parameters = null)
   {
-    $rows = $this->executeRows($query);
+    $rows = $this->executeRows($query, $parameters);
     $n    = count($rows);
 
     switch ($n)
@@ -297,16 +299,17 @@ class SqlitePdoDataLayer
    * Executes a query that returns 1 and only 1 row with 1 column.
    * Throws an exception if the query selects none, 2 or more rows.
    *
-   * @param string $query The SQL statement.
+   * @param string     $query      The SQL statement.
+   * @param array|null $parameters The parameters (i.e. replace pairs) of the query.
    *
    * @return mixed The selected value.
    *
    * @since 1.0.0
    * @api
    */
-  public function executeSingleton1(string $query)
+  public function executeSingleton1(string $query, ?array $parameters = null)
   {
-    $rows = $this->executeRows($query);
+    $rows = $this->executeRows($query, $parameters);
     $n    = count($rows);
     if ($n!=1)
     {
@@ -532,7 +535,7 @@ class SqlitePdoDataLayer
 
     if (!$exists && $script!==null)
     {
-      $this->executeNoneMulti(file_get_contents($script));
+      $this->executeNone(file_get_contents($script));
     }
   }
 
@@ -549,7 +552,7 @@ class SqlitePdoDataLayer
 
     if ($script!==null)
     {
-      $this->executeNoneMulti(file_get_contents($script));
+      $this->executeNone(file_get_contents($script));
     }
   }
 
@@ -558,15 +561,20 @@ class SqlitePdoDataLayer
    * Executes a query.
    *
    * @param string $query The query.
+   * @param array|null $parameters The parameters (i.e. replace pairs) of the query.
    *
    * @return \PDOStatement
    */
-  private function query(string $query): \PDOStatement
+  private function query(string $query, ?array $parameters): \PDOStatement
   {
-    $statement = $this->db->query($query);
+    $statement = $this->db->query(($parameters===null) ? $query : strtr($query, $parameters));
     if ($statement===false)
     {
-      throw new SqlitePdoDataLayerException($this->db->errorCode(), ($this->db->errorInfo())[2], $query);
+      preg_match('/^(\s*)/', $query, $parts);
+      $line    = substr_count($parts[1], PHP_EOL);
+      $message = sprintf("%s, at line %d.", ($this->db->errorInfo())[2], $line);
+
+      throw new SqlitePdoDataLayerException($this->db->errorCode(), $message, $query);
     }
 
     return $statement;

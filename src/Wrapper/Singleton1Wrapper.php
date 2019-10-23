@@ -41,11 +41,25 @@ class Singleton1Wrapper extends Wrapper
     $this->codeStore->append('');
     if ($this->routine['return']=='bool')
     {
-      $this->codeStore->append('return !empty($this->executeSingleton1($query));');
+      if ($this->hasRoutineArgs())
+      {
+        $this->codeStore->append('return !empty($this->executeSingleton1($query, $replace));');
+      }
+      else
+      {
+        $this->codeStore->append('return !empty($this->executeSingleton1($query));');
+      }
     }
     else
     {
-      $this->codeStore->append('return $this->executeSingleton1($query);');
+      if ($this->hasRoutineArgs())
+      {
+        $this->codeStore->append('return $this->executeSingleton1($query, $replace);');
+      }
+      else
+      {
+        $this->codeStore->append('return $this->executeSingleton1($query);');
+      }
     }
   }
 

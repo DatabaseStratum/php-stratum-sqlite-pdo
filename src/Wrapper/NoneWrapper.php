@@ -33,7 +33,14 @@ class NoneWrapper extends Wrapper
   protected function writeResultHandler(): void
   {
     $this->codeStore->append('');
-    $this->codeStore->append('$this->executeNone($query);');
+    if ($this->hasRoutineArgs())
+    {
+      $this->codeStore->append('$this->executeNone($query, $replace);');
+    }
+    else
+    {
+      $this->codeStore->append('$this->executeNone($query);');
+    }
   }
 
   //--------------------------------------------------------------------------------------------------------------------

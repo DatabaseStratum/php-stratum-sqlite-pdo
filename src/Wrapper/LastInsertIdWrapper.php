@@ -32,8 +32,15 @@ class LastInsertIdWrapper extends Wrapper
    */
   protected function writeResultHandler(): void
   {
-    $this->codeStore->append('$this->executeNone($query);');
     $this->codeStore->append('');
+    if ($this->hasRoutineArgs())
+    {
+      $this->codeStore->append('$this->executeNone($query, $replace);');
+    }
+    else
+    {
+      $this->codeStore->append('$this->executeNone($query);');
+    }
     $this->codeStore->append('return $this->lastInsertId();');
   }
 
