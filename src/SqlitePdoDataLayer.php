@@ -110,42 +110,6 @@ class SqlitePdoDataLayer
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Creates a table.
-   *
-   * @param string   $table   The name of the table.
-   * @param string[] $columns The table columns.
-   */
-  public function createTable(string $table, array $columns): void
-  {
-    $query = 'create table'.$this->db->quote($table).PHP_EOL;
-    $query .= '('.PHP_EOL;
-
-    $lines = [];
-    foreach ($columns as $column)
-    {
-      $n = preg_match('/^([^:]+):(integer|varchar|real|text|blob)(:(null|not null))?(:((primary key)( (desc|asc))?))?$/',
-                      $column,
-                      $parts);
-
-      if ($n!=1)
-      {
-        throw new LogicException('Column definition has wrong format: %s', $column);
-      }
-      $lines[] = rtrim(sprintf('  %s %s %s %s %s', $this->db->quote($parts[1]),
-                               $parts[2],
-                               $parts[4] ?? '',
-                               $parts[7] ?? '',
-                               $parts[9] ?? ''));
-    }
-
-    $query .= implode(','.PHP_EOL, $lines);
-    $query .= PHP_EOL.')'.PHP_EOL;
-
-    $this->executeNone($query);
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
    * Executes a query that does not select any rows.
    *
    * @param string $query The SQL statement.
