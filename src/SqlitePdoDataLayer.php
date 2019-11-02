@@ -50,6 +50,9 @@ class SqlitePdoDataLayer
    *                              against a new database.
    * @param bool        $volatile Only applies when $db is a string. If true the database will be volatile. That is, the
    *                              database file be deleted before opening and closing the database.
+   *
+   * @since 1.0.0
+   * @api
    */
   public function __construct($db = null, ?string $script = null, bool $volatile = false)
   {
@@ -81,6 +84,9 @@ class SqlitePdoDataLayer
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Object destructor.
+   *
+   * @since 1.0.0
+   * @api
    */
   public function __destruct()
   {
@@ -94,6 +100,9 @@ class SqlitePdoDataLayer
    * PDO closes a database only when there no references to the database. Hence, when a \PDO object has been passed to
    * the constructor and another references exists to this \PDO object PDO will not close the database. Reopening the
    * database will result in a database that is in read only mode.
+   *
+   * @since 1.0.0
+   * @api
    */
   public function close()
   {
@@ -153,6 +162,9 @@ class SqlitePdoDataLayer
    *
    * @param string     $query      The SQL statement.
    * @param array|null $parameters The parameters (i.e. replace pairs) of the query.
+   *
+   * @since 1.0.0
+   * @api
    */
   public function executeNone(string $query, ?array $parameters = null): void
   {
@@ -224,6 +236,9 @@ class SqlitePdoDataLayer
    * @param array|null $parameters The parameters (i.e. replace pairs) of the query.
    *
    * @return array[] The selected rows.
+   *
+   * @since 1.0.0
+   * @api
    */
   public function executeRows(string $query, ?array $parameters = null): array
   {
@@ -325,6 +340,9 @@ class SqlitePdoDataLayer
    * @param string $table The name of the table.
    *
    * @return array
+   *
+   * @since 1.0.0
+   * @api
    */
   public function getTableColumns(string $table): array
   {
@@ -339,6 +357,9 @@ class SqlitePdoDataLayer
    *
    * @param string $table The name of the table.
    * @param array  $row   The row.
+   *
+   * @since 1.0.0
+   * @api
    */
   public function insertRow(string $table, array $row): void
   {
@@ -368,6 +389,9 @@ class SqlitePdoDataLayer
    *
    * @param string  $table The name of the table.
    * @param array[] $rows  The row.
+   *
+   * @since 1.0.0
+   * @api
    */
   public function insertRows(string $table, array $rows): void
   {
