@@ -118,46 +118,6 @@ class SqlitePdoDataLayer
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Executes multiple queries.
-   *
-   * Comments are allowed and may contain
-   *
-   * @param string     $queries    The SQL statements.
-   * @param array|null $parameters The parameters (i.e. replace pairs) of the query.
-   *
-   * @return string The last query.
-   */
-  public function executeLeadingQueries(string $queries, ?array $parameters): string
-  {
-    $parts     = preg_split('/;[ \t\f\h]*\R/', $queries.PHP_EOL, -1, PREG_SPLIT_OFFSET_CAPTURE);
-    $lineCount = 1;
-
-    if (sizeof($parts)==1)
-    {
-      $last = array_pop($parts);
-    }
-    else
-    {
-      $last = array_pop($parts);
-      // If part does not end with semicolon the part is a comment at the end of the file.
-      if (substr($queries, $last[1] + strlen($last[0]), 1)!==';')
-      {
-        $last = array_pop($parts);
-      }
-    }
-
-    foreach ($parts as $part)
-    {
-      $query = $part[0];
-      $this->query($query, $parameters);
-      $lineCount += substr_count($query, PHP_EOL) + 1;
-    }
-
-    return str_repeat(PHP_EOL, $lineCount).$last[0];
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
    * Executes a query that does not select any rows.
    *
    * @param string     $query      The SQL statement.
@@ -509,6 +469,46 @@ class SqlitePdoDataLayer
   public function quoteVarchar(?string $value): string
   {
     return ($value===null || $value==='') ? 'null' : $this->db->quote($value);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Executes multiple queries.
+   *
+   * Comments are allowed and may contain
+   *
+   * @param string     $queries    The SQL statements.
+   * @param array|null $parameters The parameters (i.e. replace pairs) of the query.
+   *
+   * @return string The last query.
+   */
+  private function executeLeadingQueries(string $queries, ?array $parameters): string
+  {
+    $parts     = preg_split('/;[ \t\f\h]*\R/', $queries.PHP_EOL, -1, PREG_SPLIT_OFFSET_CAPTURE);
+    $lineCount = 1;
+
+    if (sizeof($parts)==1)
+    {
+      $last = array_pop($parts);
+    }
+    else
+    {
+      $last = array_pop($parts);
+      // If part does not end with semicolon the part is a comment at the end of the file.
+      if (substr($queries, $last[1] + strlen($last[0]), 1)!==';')
+      {
+        $last = array_pop($parts);
+      }
+    }
+
+    foreach ($parts as $part)
+    {
+      $query = $part[0];
+      $this->query($query, $parameters);
+      $lineCount += substr_count($query, PHP_EOL) + 1;
+    }
+
+    return str_repeat(PHP_EOL, $lineCount).$last[0];
   }
 
   //--------------------------------------------------------------------------------------------------------------------
