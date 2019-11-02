@@ -143,6 +143,30 @@ EOT;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Test comment add end is ignored.
+   *
+   * @return string
+   */
+  public function tstTestExecuteLeadingQueries(): string
+  {
+    $query = <<< EOT
+create temporary table TMP_FOO(x int);
+
+create index TMP_IDX01 on TMP_FOO(x);
+
+select 'Hello, world!';
+
+/**
+ * This is a trailing comment.
+ */
+EOT;
+    $query = str_repeat(PHP_EOL, 6).$query;
+
+    return $this->executeSingleton1($query);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Test for illegal query.
    *
    * @return array[]
