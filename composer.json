@@ -10,7 +10,6 @@
     "Wrapper",
     "Loader"
   ],
-  "type": "tool",
   "license": "MIT",
   "require": {
     "php": ">=7.1.0",
