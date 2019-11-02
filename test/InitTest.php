@@ -12,9 +12,9 @@ class InitTest extends DataLayerTestCase
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Test in memory database.
+   * Test in memory database without script.
    */
-  public function testInMemory()
+  public function testInMemory1()
   {
     $dl      = new SqlitePdoDataLayer();
     $version = $dl->executeSingleton1('select sqlite_version()');
@@ -23,9 +23,21 @@ class InitTest extends DataLayerTestCase
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Test in memory database with script.
+   */
+  public function testInMemory2()
+  {
+    $dl      = new SqlitePdoDataLayer(null, 'test/ddl/0100_create_tables.sql');
+    $version = $dl->executeSingleton1('select sqlite_version()');
+    self::assertRegExp('/^[0-9.]+$/', $version);
+
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Test constructor with path.
    */
-  public function testPath()
+  public function testPath1()
   {
     $path    = __DIR__.'/test.db';
     $dl      = new SqlitePdoDataLayer($path);
@@ -33,6 +45,45 @@ class InitTest extends DataLayerTestCase
     self::assertRegExp('/^[0-9.]+$/', $version);
 
     unlink($path);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test constructor with path and volatile.
+   */
+  public function testPath2()
+  {
+    $path    = __DIR__.'/test.db';
+    $dl      = new SqlitePdoDataLayer($path, 'test/ddl/0100_create_tables.sql', true);
+    $version = $dl->executeSingleton1('select sqlite_version()');
+    self::assertRegExp('/^[0-9.]+$/', $version);
+    $dl->close();
+    self::assertFileNotExists($path);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   *Test constructor with path, volatile, and database exists.
+   */
+  public function testPath3()
+  {
+    $path    = __DIR__.'/test.db';
+    file_put_contents($path, __METHOD__);
+    $dl      = new SqlitePdoDataLayer($path, 'test/ddl/0100_create_tables.sql', true);
+    $version = $dl->executeSingleton1('select sqlite_version()');
+    self::assertRegExp('/^[0-9.]+$/', $version);
+    $dl->close();
+    self::assertFileNotExists($path);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test constructor with illegal path.
+   */
+  public function testPath4()
+  {
+    $this->expectException(\InvalidArgumentException::class);
+    new SqlitePdoDataLayer('', 'test/ddl/0100_create_tables.sql', false);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
