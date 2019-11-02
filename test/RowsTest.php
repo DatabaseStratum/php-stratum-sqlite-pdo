@@ -12,7 +12,7 @@ class RowsTest extends DataLayerTestCase
   /**
    * Stored routine with designation type rows must return an empty array when no rows are selected.
    */
-  public function test1()
+  public function testRows0()
   {
     $ret = $this->dataLayer->tstTestRows1(0);
     self::assertIsArray($ret);
@@ -23,7 +23,7 @@ class RowsTest extends DataLayerTestCase
   /**
    * Stored routine with designation type rows must return an array with 1 row when only 1 row is selected.
    */
-  public function test2()
+  public function testRows1()
   {
     $ret = $this->dataLayer->tstTestRows1(1);
     self::assertIsArray($ret);
@@ -34,11 +34,11 @@ class RowsTest extends DataLayerTestCase
   /**
    * Stored routine with designation type rows must return an array with 3 rows when 3 rows are selected.
    */
-  public function test3()
+  public function testRows3()
   {
-    $ret = $this->dataLayer->tstTestRows1(2);
+    $ret = $this->dataLayer->tstTestRows1(3);
     self::assertIsArray($ret);
-    self::assertCount(2, $ret);
+    self::assertCount(3, $ret);
   }
 
   //--------------------------------------------------------------------------------------------------------------------

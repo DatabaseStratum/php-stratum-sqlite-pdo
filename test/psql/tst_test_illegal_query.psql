@@ -3,5 +3,8 @@
  *
  * @type rows
  */
-select *
-from DOES_NOT_EXISTS
+drop table if exists TST_FOOBAR;
+
+drop table if exists TST_FOOBAR;
+
+select * from NOT_EXISTS;

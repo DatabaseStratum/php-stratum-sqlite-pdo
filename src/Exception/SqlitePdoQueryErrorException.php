@@ -7,7 +7,7 @@ use SetBased\Stratum\Middle\Exception\QueryErrorException;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 
 /**
- * Exception thrown when the execution of MySQL query fails.
+ * Exception thrown when the execution of SQLite query fails.
  */
 class SqlitePdoQueryErrorException extends SqlitePdoDataLayerException implements QueryErrorException
 {
@@ -23,27 +23,15 @@ class SqlitePdoQueryErrorException extends SqlitePdoDataLayerException implement
   /**
    * Object constructor.
    *
-   * @param int    $errno  The error code value of the error ($mysqli->errno).
-   * @param string $error  Description of the last error ($mysqli->error).
-   * @param string $method The name of the executed method.
-   * @param string $query  The failed query.
+   * @param string $errno The error code value of the error.
+   * @param string $error Description of the last error.
+   * @param string $query The failed query.
    */
-  public function __construct(int $errno, string $error, string $method, string $query)
+  public function __construct(string $errno, string $error, string $query)
   {
-    parent::__construct((string)$errno, $error, $method);
+    parent::__construct($errno, $error, $query);
 
     $this->query = $query;
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * Returns true if this exception is caused by an invalid SQL statement. Otherwise returns false.
-   *
-   * @return bool
-   */
-  public function isQueryError(): bool
-  {
-    return ($this->code==1064);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -56,34 +44,24 @@ class SqlitePdoQueryErrorException extends SqlitePdoDataLayerException implement
    */
   public function styledQuery(string $style = 'error'): array
   {
-    $query = trim($this->query); // MySQL ignores leading whitespace in queries.
+    // The format of a query error is: %s near '%s' at line %d
+    $error_line = trim(strrchr($this->error, ' '));
 
-    if ($this->isQueryError())
+    // Prepend each line with line number.
+    $lines   = explode(PHP_EOL, $this->query);
+    $digits  = ceil(log(sizeof($lines) + 1, 10));
+    $format  = sprintf('%%%dd %%s', $digits);
+    $message = [];
+    foreach ($lines as $i => $line)
     {
-      // Query is a multi line query.
-      // The format of a 1064 message is: %s near '%s' at line %d
-      $error_line = trim(strrchr($this->error, ' '));
-
-      // Prepend each line with line number.
-      $lines   = explode(PHP_EOL, $query);
-      $digits  = ceil(log(sizeof($lines) + 1, 10));
-      $format  = sprintf('%%%dd %%s', $digits);
-      $message = [];
-      foreach ($lines as $i => $line)
+      if (($i + 1)==$error_line)
       {
-        if (($i + 1)==$error_line)
-        {
-          $message[] = sprintf('<%s>'.$format.'</%s>', $style, $i + 1, OutputFormatter::escape($line), $style);
-        }
-        else
-        {
-          $message[] = sprintf($format, $i + 1, OutputFormatter::escape($line));
-        }
+        $message[] = sprintf('<%s>'.$format.'</%s>', $style, $i + 1, OutputFormatter::escape($line), $style);
       }
-    }
-    else
-    {
-      $message = explode(PHP_EOL, $query);
+      else
+      {
+        $message[] = sprintf($format, $i + 1, OutputFormatter::escape($line));
+      }
     }
 
     return $message;

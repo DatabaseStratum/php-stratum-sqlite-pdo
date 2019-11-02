@@ -6,7 +6,7 @@ namespace SetBased\Stratum\SqlitePdo;
 use SetBased\Abc\Helper\Cast;
 use SetBased\Exception\FallenException;
 use SetBased\Stratum\Middle\Exception\ResultException;
-use SetBased\Stratum\SqlitePdo\Exception\SqlitePdoDataLayerException;
+use SetBased\Stratum\SqlitePdo\Exception\SqlitePdoQueryErrorException;
 
 /**
  * Data layer for communication with the in memory (SQLite) database.
@@ -508,7 +508,7 @@ class SqlitePdoDataLayer
       $lineCount += substr_count($query, PHP_EOL) + 1;
     }
 
-    return str_repeat(PHP_EOL, $lineCount).$last[0];
+    return str_repeat(PHP_EOL, $lineCount - 1).$last[0];
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -592,10 +592,10 @@ class SqlitePdoDataLayer
     if ($statement===false)
     {
       preg_match('/^(\s*)/', $query, $parts);
-      $line    = substr_count($parts[1], PHP_EOL);
-      $message = sprintf("%s, at line %d.", ($this->db->errorInfo())[2], $line);
+      $line    = substr_count($parts[1], PHP_EOL) + 1;
+      $message = sprintf("%s, at line %d", ($this->db->errorInfo())[2], $line);
 
-      throw new SqlitePdoDataLayerException($this->db->errorCode(), $message, $query);
+      throw new SqlitePdoQueryErrorException($this->db->errorCode(), $message, $query);
     }
 
     return $statement;

@@ -25,56 +25,39 @@ class SqlitePdoDataLayerException extends \RuntimeException implements DataLayer
    */
   protected $error;
 
-  /**
-   * The method.
-   *
-   * @var string
-   */
-  protected $method;
-
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Object constructor.
    *
-   * @param string      $code   The error code value of the error ($mysqli->errno).
-   * @param string      $error  Description of the last error ($mysqli->error).
-   * @param string|null $method The name of the executed method.
-   * @param string|null $query  The executed query.
+   * @param string      $code  The error code value of the error ($mysqli->errno).
+   * @param string      $error Description of the last error ($mysqli->error).
+   * @param string|null $query The executed query.
    */
-  public function __construct(string $code, string $error, ?string $method, ?string $query = null)
+  public function __construct(string $code, string $error, string $query = null)
   {
-    parent::__construct(self::message($code, $error, $method, $query));
+    parent::__construct(self::message($code, $error, $query));
 
-    $this->code   = $code;
-    $this->error  = $error;
-    $this->method = $method;
+    $this->code  = $code;
+    $this->error = $error;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Composes the exception message.
    *
-   * @param string      $code   The error code value of the error ($mysqli->errno).
-   * @param string      $error  Description of the error ($mysqli->error).
-   * @param string|null $method The name of the executed method.
-   * @param string|null $query  The executed query.
+   * @param string      $code  The error code value of the error ($mysqli->errno).
+   * @param string      $error Description of the error ($mysqli->error).
+   * @param string|null $query The executed query.
    *
    * @return string
    */
-  private static function message(string $code, string $error, ?string $method, ?string $query): string
+  private static function message(string $code, string $error, ?string $query): string
   {
     $message = 'SQLite Error: '.$code.PHP_EOL;
     $message .= $error.PHP_EOL;
-    if ($method!==null)
-    {
-      $message .= 'Failed method: '.$method;
-    }
-    elseif ($query!==null)
-    {
-      $message .= 'Failed query:';
-      $message .= (substr_count($query, PHP_EOL)===0) ? ' ' : PHP_EOL;
-      $message .= $query;
-    }
+    $message .= 'Failed query:';
+    $message .= (substr_count($query, PHP_EOL)===0) ? ' ' : PHP_EOL;
+    $message .= $query;
 
     return $message;
   }

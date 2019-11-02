@@ -174,8 +174,11 @@ EOT;
   public function tstTestIllegalQuery(): array
   {
     $query = <<< EOT
-select *
-from DOES_NOT_EXISTS
+drop table if exists TST_FOOBAR;
+
+drop table if exists TST_FOOBAR;
+
+select * from NOT_EXISTS;
 EOT;
     $query = str_repeat(PHP_EOL, 5).$query;
 
@@ -237,6 +240,29 @@ EOT;
     $query = str_repeat(PHP_EOL, 10).$query;
 
     return $this->executeRow0($query, $replace);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test for designation type rows and type conversion.
+   *
+   * @return array
+   */
+  public function tstTestRow1Conversion(): array
+  {
+    $query = <<< EOT
+select cast(1 as int)             as c_int
+,      cast(1.1 as numeric)       as c_numeric
+,      cast(2.2 as float)         as c_float
+,      cast(3.3 as real)          as c_real
+,      cast(4.4 as double)        as c_double
+,      cast('varchar' as varchar) as c_varchar
+,      cast('text' as text)       as c_text
+,      cast('blob' as blob)       as c_blob
+EOT;
+    $query = str_repeat(PHP_EOL, 5).$query;
+
+    return $this->executeRow1($query);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
