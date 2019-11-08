@@ -88,7 +88,7 @@ class SqlitePdoDataLayerException extends \RuntimeException implements DataLayer
   /**
    * @inheritdoc
    */
-  public function getName()
+  public function getName(): string
   {
     return 'SQLite Error';
   }
