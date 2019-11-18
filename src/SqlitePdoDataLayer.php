@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace SetBased\Stratum\SqlitePdo;
 
-use SetBased\Abc\Helper\Cast;
 use SetBased\Exception\FallenException;
+use SetBased\Helper\Cast;
 use SetBased\Stratum\Middle\Exception\ResultException;
 use SetBased\Stratum\SqlitePdo\Exception\SqlitePdoQueryErrorException;
 
@@ -37,6 +37,7 @@ class SqlitePdoDataLayer
   private $volatile;
 
   //--------------------------------------------------------------------------------------------------------------------
+
   /**
    * Object constructor.
    *
