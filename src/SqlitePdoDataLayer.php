@@ -209,7 +209,7 @@ class SqlitePdoDataLayer
     $types = [];
     for ($i = 0; $i<$statement->columnCount(); $i++)
     {
-      $types[$i] = $statement->getColumnMeta($i)['native_type'];
+      $types[$i] = $statement->getColumnMeta($i)['native_type'] ?? null;
     }
 
     $rows = $statement->fetchAll(\PDO::FETCH_ASSOC);
