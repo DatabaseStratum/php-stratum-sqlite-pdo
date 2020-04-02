@@ -12,21 +12,21 @@
   ],
   "license": "MIT",
   "require": {
-    "php": ">=7.1.0",
+    "php": ">=7.3",
     "ext-json": "*",
     "ext-pdo": "*",
-    "setbased/exception": "^2.0.0",
+    "setbased/exception": "^2.1",
     "setbased/helper-cast": "^2.0",
-    "setbased/helper-code-store-php": "^2.2.0",
-    "setbased/php-stratum-backend": "^5.0.0",
-    "setbased/php-stratum-common": "^5.0.0",
-    "setbased/php-stratum-middle": "^5.0.0",
-    "zendframework/zend-code": "^3.0.0"
+    "setbased/helper-code-store-php": "^2.3",
+    "setbased/php-stratum-backend": "^5.2",
+    "setbased/php-stratum-common": "^5.2",
+    "setbased/php-stratum-middle": "^5.2",
+    "zendframework/zend-code": "^3.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^7.0.0 || ^8.0.0",
-    "phing/phing": "^2.0.0",
-    "setbased/php-stratum": "^5.0.0"
+    "phpunit/phpunit": "^9.0",
+    "phing/phing": "^2.0",
+    "setbased/php-stratum": "^5.0"
   },
   "autoload": {
     "psr-4": {
@@ -39,6 +39,7 @@
     }
   },
   "config": {
-    "bin-dir": "bin/"
+    "bin-dir": "bin/",
+    "sort-packages": true
   }
 }
