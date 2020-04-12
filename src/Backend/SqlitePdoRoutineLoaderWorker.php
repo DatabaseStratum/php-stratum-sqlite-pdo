@@ -11,13 +11,13 @@ use SetBased\Stratum\Middle\NameMangler\NameMangler;
 use SetBased\Stratum\SqlitePdo\Helper\RoutineLoaderHelper;
 
 /**
- * Command for loading stored routines into a MySQL instance from pseudo SQL files.
+ * Command for mimicking loading stored routines into a SQLite instance from pseudo SQL files.
  */
 class SqlitePdoRoutineLoaderWorker extends SqlitePdoWorker implements RoutineLoaderWorker
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * An array with source filenames that are not loaded into MySQL.
+   * An array with source filenames that are not loaded into SQLite.
    *
    * @var array
    */
@@ -211,7 +211,7 @@ class SqlitePdoRoutineLoaderWorker extends SqlitePdoWorker implements RoutineLoa
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Loads all stored routines into MySQL.
+   * Loads all stored routines into SQLite.
    */
   private function loadAll(): void
   {
@@ -223,7 +223,7 @@ class SqlitePdoRoutineLoaderWorker extends SqlitePdoWorker implements RoutineLoa
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Loads all stored routines in a list into MySQL.
+   * Loads all stored routines in a list into SQLite.
    *
    * @param string[] $sources The list of files to be loaded.
    */
@@ -270,7 +270,7 @@ class SqlitePdoRoutineLoaderWorker extends SqlitePdoWorker implements RoutineLoa
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Logs the source files that were not successfully loaded into MySQL.
+   * Logs the source files that were not successfully loaded into SQLite.
    */
   private function logOverviewErrors(): void
   {

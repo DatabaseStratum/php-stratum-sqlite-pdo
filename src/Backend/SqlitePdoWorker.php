@@ -8,7 +8,7 @@ use SetBased\Stratum\Backend\StratumStyle;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 
 /**
- * Base class for commands which needs to connect to a MySQL instance.
+ * Base class for commands which needs to connect to a SQLite database.
  */
 class SqlitePdoWorker
 {

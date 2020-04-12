@@ -15,7 +15,7 @@ use Zend\Code\Reflection\DocBlock\TagManager as DocBlockTagManager;
 use Zend\Code\Reflection\DocBlockReflection;
 
 /**
- * Class for loading a single stored routine into a MySQL instance from pseudo SQL file.
+ * Class for mimicking loading a single stored routine into a SQLite instance from pseudo SQL file.
  */
 class RoutineLoaderHelper
 {
@@ -155,7 +155,7 @@ class RoutineLoaderHelper
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Loads the stored routine into the instance of MySQL and returns the metadata of the stored routine.
+   * Loads the stored routine into the instance of SQLite and returns the metadata of the stored routine.
    *
    * @return array
    */
@@ -511,7 +511,7 @@ class RoutineLoaderHelper
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * Validates the parameters found the DocBlock in the source of the stored routine against the parameters from the
-   * metadata of MySQL and reports missing and unknown parameters names.
+   * metadata of SQLite and reports missing and unknown parameters names.
    */
   private function validateParameterLists(): void
   {

@@ -12,14 +12,14 @@ class SqlitePdoDataLayerException extends \RuntimeException implements DataLayer
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * The error code value of the error ($mysqli->errno).
+   * The error code value of the error.
    *
    * @var string
    */
   protected $code;
 
   /**
-   * Description of the last error ($mysqli->error).
+   * Description of the last error.
    *
    * @var string
    */
@@ -29,8 +29,8 @@ class SqlitePdoDataLayerException extends \RuntimeException implements DataLayer
   /**
    * Object constructor.
    *
-   * @param string      $code  The error code value of the error ($mysqli->errno).
-   * @param string      $error Description of the last error ($mysqli->error).
+   * @param string      $code  The error code value of the error.
+   * @param string      $error Description of the last error.
    * @param string|null $query The executed query.
    */
   public function __construct(string $code, string $error, string $query = null)
@@ -45,8 +45,8 @@ class SqlitePdoDataLayerException extends \RuntimeException implements DataLayer
   /**
    * Composes the exception message.
    *
-   * @param string      $code  The error code value of the error ($mysqli->errno).
-   * @param string      $error Description of the error ($mysqli->error).
+   * @param string      $code  The error code value of the error.
+   * @param string      $error Description of the error.
    * @param string|null $query The executed query.
    *
    * @return string

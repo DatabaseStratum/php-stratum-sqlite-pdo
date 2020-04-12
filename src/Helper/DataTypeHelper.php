@@ -6,7 +6,7 @@ namespace SetBased\Stratum\SqlitePdo\Helper;
 use SetBased\Exception\FallenException;
 
 /**
- * Utility class for deriving information based on a MySQL data type.
+ * Utility class for deriving information based on a SQLite data type.
  */
 class DataTypeHelper
 {
@@ -96,7 +96,7 @@ class DataTypeHelper
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Returns the corresponding PHP type declaration of a MySQL column type.
+   * Returns the corresponding PHP type declaration of a SQLite column type.
    *
    * @param string $phpTypeHint The PHP type hinting.
    *
