@@ -91,7 +91,7 @@ class SqlitePdoRoutineWrapperGeneratorPdoWorker extends SqlitePdoWorker implemen
    */
   private function generateWrapperClass(): void
   {
-    $this->io->title('PhpStratum SQLite PDO: Wrapper');
+    $this->io->title('PhpStratum: SQLite PDO Wrapper');
 
     $this->codeStore = new PhpCodeStore();
 

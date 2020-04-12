@@ -69,7 +69,7 @@ class SqlitePdoRoutineLoaderWorker extends SqlitePdoWorker implements RoutineLoa
    */
   public function execute(?array $sources = null): int
   {
-    $this->io->title('PhpStratum SQLite PDO: Loader');
+    $this->io->title('PhpStratum: SQLite PDO Loader');
 
     $this->phpStratumMetadataFilename = $this->settings->manString('loader.metadata');
     $this->sourcePattern              = $this->settings->manString('loader.sources');
