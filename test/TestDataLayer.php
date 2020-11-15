@@ -51,7 +51,7 @@ EOT;
   public function tstMagicConstant03(): string
   {
     $query = <<< EOT
-select '/opt/Projects/SetBased/Stratum/php-stratum-sqlite-pdo/test/psql/tst_magic_constant03.psql';
+select '/opt/Projects/DatabaseStratum/php-stratum-sqlite-pdo/test/psql/tst_magic_constant03.psql';
 EOT;
     $query = str_repeat(PHP_EOL, 6).$query;
 
@@ -67,7 +67,7 @@ EOT;
   public function tstMagicConstant04(): string
   {
     $query = <<< EOT
-select '/opt/Projects/SetBased/Stratum/php-stratum-sqlite-pdo/test/psql';
+select '/opt/Projects/DatabaseStratum/php-stratum-sqlite-pdo/test/psql';
 EOT;
     $query = str_repeat(PHP_EOL, 6).$query;
 
@@ -83,7 +83,7 @@ EOT;
   public function tstMagicConstant05(): string
   {
     $query = <<< EOT
-select '/opt/Projects/SetBased/Stratum/php-stratum-sqlite-pdo/test/psql/ test_escape '' " @ $ ! .';
+select '/opt/Projects/DatabaseStratum/php-stratum-sqlite-pdo/test/psql/ test_escape '' " @ $ ! .';
 EOT;
     $query = str_repeat(PHP_EOL, 6).$query;
 

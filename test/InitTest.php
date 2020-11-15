@@ -18,7 +18,7 @@ class InitTest extends DataLayerTestCase
   {
     $dl      = new SqlitePdoDataLayer();
     $version = $dl->executeSingleton1('select sqlite_version()');
-    self::assertRegExp('/^[0-9.]+$/', $version);
+    self::assertMatchesRegularExpression('/^[0-9.]+$/', $version);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ class InitTest extends DataLayerTestCase
   {
     $dl      = new SqlitePdoDataLayer(null, 'test/ddl/0100_create_tables.sql');
     $version = $dl->executeSingleton1('select sqlite_version()');
-    self::assertRegExp('/^[0-9.]+$/', $version);
+    self::assertMatchesRegularExpression('/^[0-9.]+$/', $version);
 
   }
 
@@ -42,7 +42,7 @@ class InitTest extends DataLayerTestCase
     $path    = __DIR__.'/test.db';
     $dl      = new SqlitePdoDataLayer($path);
     $version = $dl->executeSingleton1('select sqlite_version()');
-    self::assertRegExp('/^[0-9.]+$/', $version);
+    self::assertMatchesRegularExpression('/^[0-9.]+$/', $version);
 
     unlink($path);
   }
@@ -56,9 +56,9 @@ class InitTest extends DataLayerTestCase
     $path    = __DIR__.'/test.db';
     $dl      = new SqlitePdoDataLayer($path, 'test/ddl/0100_create_tables.sql', true);
     $version = $dl->executeSingleton1('select sqlite_version()');
-    self::assertRegExp('/^[0-9.]+$/', $version);
+    self::assertMatchesRegularExpression('/^[0-9.]+$/', $version);
     $dl->close();
-    self::assertFileNotExists($path);
+    self::assertFileDoesNotExist($path);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -71,9 +71,9 @@ class InitTest extends DataLayerTestCase
     file_put_contents($path, __METHOD__);
     $dl      = new SqlitePdoDataLayer($path, 'test/ddl/0100_create_tables.sql', true);
     $version = $dl->executeSingleton1('select sqlite_version()');
-    self::assertRegExp('/^[0-9.]+$/', $version);
+    self::assertMatchesRegularExpression('/^[0-9.]+$/', $version);
     $dl->close();
-    self::assertFileNotExists($path);
+    self::assertFileDoesNotExist($path);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ class InitTest extends DataLayerTestCase
     $pdo     = new \PDO('sqlite:'.$path);
     $dl      = new SqlitePdoDataLayer($pdo);
     $version = $dl->executeSingleton1('select sqlite_version()');
-    self::assertRegExp('/^[0-9.]+$/', $version);
+    self::assertMatchesRegularExpression('/^[0-9.]+$/', $version);
 
     unlink($path);
   }
