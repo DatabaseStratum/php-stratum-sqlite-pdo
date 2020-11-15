@@ -225,7 +225,10 @@ EOT;
   /**
    * Test for designation type row0.
    *
-   * @param int|null $pCount The number of rows selected. * 0 For a valid test. * 1 For a valid test. * 2 For a invalid test.
+   * @param int|null $pCount The number of rows selected.
+   *                         * 0 For a valid test.
+   *                         * 1 For a valid test.
+   *                         * 2 For a invalid test.
    *
    * @return array|null
    */
@@ -269,7 +272,10 @@ EOT;
   /**
    * Test for designation type row1.
    *
-   * @param int|null $pCount The number of rows selected. * 0 For a invalid test. * 1 For a valid test. * 2 For a invalid test.
+   * @param int|null $pCount The number of rows selected.
+   *                         * 0 For a invalid test.
+   *                         * 1 For a valid test.
+   *                         * 2 For a invalid test.
    *
    * @return array
    */
@@ -311,7 +317,10 @@ EOT;
   /**
    * Test for designation type singleton0.
    *
-   * @param int|null $pCount The number of rows selected. * 0 For a valid test. * 1 For a valid test. * 2 For a invalid test.
+   * @param int|null $pCount The number of rows selected.
+   *                         * 0 For a valid test.
+   *                         * 1 For a valid test.
+   *                         * 2 For a invalid test.
    *
    * @return int|null
    */
@@ -332,7 +341,10 @@ EOT;
   /**
    * Test for designation type singleton0 with return type bool.
    *
-   * @param int|null $pCount The number of rows selected. * 0 For a valid test. * 1 For a valid test. * 2 For a invalid test.
+   * @param int|null $pCount The number of rows selected.
+   *                         * 0 For a valid test.
+   *                         * 1 For a valid test.
+   *                         * 2 For a invalid test.
    * @param int|null $pValue The selected value.
    *
    * @return bool
@@ -354,7 +366,10 @@ EOT;
   /**
    * Test for designation type singleton1.
    *
-   * @param int|null $pCount The number of rows selected. * 0 For a invalid test. * 1 For a valid test. * 2 For a invalid test.
+   * @param int|null $pCount The number of rows selected.
+   *                         * 0 For a invalid test.
+   *                         * 1 For a valid test.
+   *                         * 2 For a invalid test.
    *
    * @return int
    */
@@ -375,7 +390,10 @@ EOT;
   /**
    * Test for designation type singleton1 with return type bool.
    *
-   * @param int|null $pCount The number of rows selected. * 0 For a invalid test. * 1 For a valid test. * 2 For a invalid test.
+   * @param int|null $pCount The number of rows selected.
+   *                         * 0 For a invalid test.
+   *                         * 1 For a valid test.
+   *                         * 2 For a invalid test.
    * @param int|null $pValue The selected value.
    *
    * @return bool

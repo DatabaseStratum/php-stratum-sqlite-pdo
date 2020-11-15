@@ -43,6 +43,7 @@ abstract class Wrapper
   protected $routine;
 
   //--------------------------------------------------------------------------------------------------------------------
+
   /**
    * Object constructor.
    *
@@ -174,12 +175,11 @@ abstract class Wrapper
   {
     $ret = '';
 
-    foreach ($this->routine['phpdoc']['parameters'] as $parameter)
+    foreach ($this->routine['parameters'] as $parameter)
     {
       if ($ret!=='') $ret .= ', ';
 
-      $type        = $this->routine['parameters'][$parameter['name']]['type'];
-      $dataType    = DataTypeHelper::columnTypeToPhpTypeHinting($type);
+      $dataType    = DataTypeHelper::columnTypeToPhpTypeHinting($parameter['type']);
       $declaration = DataTypeHelper::phpTypeHintingToPhpTypeDeclaration($dataType.'|null');
       if ($declaration!=='')
       {
@@ -220,7 +220,7 @@ abstract class Wrapper
     $this->codeStore->append('/**', false);
 
     // Generate phpdoc with short description of routine wrapper.
-    $this->generatePhpDocSortDescription();
+    $this->generatePhpDocShortDescription();
 
     // Generate phpdoc with long description of routine wrapper.
     $this->generatePhpDocLongDescription();
@@ -254,9 +254,12 @@ abstract class Wrapper
    */
   private function generatePhpDocLongDescription(): void
   {
-    if ($this->routine['phpdoc']['long_description']!=='')
+    if (!empty($this->routine['phpdoc']['long_description']))
     {
-      $this->codeStore->append(' * '.$this->routine['phpdoc']['long_description'], false);
+      foreach ($this->routine['phpdoc']['long_description'] as $line)
+      {
+        $this->codeStore->append(' * '.$line, false);
+      }
     }
   }
 
@@ -273,7 +276,7 @@ abstract class Wrapper
 
       $parameters[] = ['php_name'    => '$'.$mangledName,
                        'description' => $parameter['description'],
-                       'type'        => $parameter['type']];
+                       'php_type'    => $parameter['php_type']];
     }
 
     if (!empty($parameters))
@@ -284,7 +287,7 @@ abstract class Wrapper
       foreach ($parameters as $parameter)
       {
         $max_name_length = max($max_name_length, mb_strlen($parameter['php_name']));
-        $max_type_length = max($max_type_length, mb_strlen($parameter['type']));
+        $max_type_length = max($max_type_length, mb_strlen($parameter['php_type']));
       }
 
       $this->codeStore->append(' *', false);
@@ -294,11 +297,11 @@ abstract class Wrapper
       {
         $format = sprintf(' * %%-%ds %%-%ds %%-%ds %%s', mb_strlen('@param'), $max_type_length, $max_name_length);
 
-        $lines = explode(PHP_EOL, $parameter['description'] ?? '');
+        $lines = $parameter['description'];
         if (!empty($lines))
         {
           $line = array_shift($lines);
-          $this->codeStore->append(sprintf($format, '@param', $parameter['type'], $parameter['php_name'], $line), false);
+          $this->codeStore->append(sprintf($format, '@param', $parameter['php_type'], $parameter['php_name'], $line), false);
           foreach ($lines as $line)
           {
             $this->codeStore->append(sprintf($format, ' ', ' ', ' ', $line), false);
@@ -314,13 +317,16 @@ abstract class Wrapper
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Generates the sort description of stored routine wrapper.
+   * Generates the short description of stored routine wrapper.
    */
-  private function generatePhpDocSortDescription(): void
+  private function generatePhpDocShortDescription(): void
   {
-    if ($this->routine['phpdoc']['sort_description']!=='')
+    if (!empty($this->routine['phpdoc']['short_description']))
     {
-      $this->codeStore->append(' * '.$this->routine['phpdoc']['sort_description'], false);
+      foreach ($this->routine['phpdoc']['short_description'] as $line)
+      {
+        $this->codeStore->append(' * '.$line, false);
+      }
     }
   }
 
