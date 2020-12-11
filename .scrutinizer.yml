@@ -1,12 +1,17 @@
 filter:
   dependency_paths:
     - "vendor/"
+  excluded_paths:
+    - 'test/'
 
 build:
-  environment:
-    mysql: 5.7
   nodes:
     analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
+
+    coverage:
       tests:
         override:
           - command: './bin/phing unit'

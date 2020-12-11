@@ -1,8 +1,6 @@
 /.idea/
 /.phpunit.result.cache
-/bin/phing
-/bin/phpunit
-/bin/stratum
+/bin/
 /composer.lock
 /docs/
 /test/coverage.xml
