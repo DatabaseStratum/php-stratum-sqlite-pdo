@@ -6,7 +6,6 @@ namespace SetBased\Stratum\SqlitePdo\Helper;
 use SetBased\Stratum\Backend\StratumStyle;
 use SetBased\Stratum\Common\DocBlock\DocBlockReflection;
 use SetBased\Stratum\Common\Exception\RoutineLoaderException;
-use SetBased\Stratum\Middle\Helper\RowSetHelper;
 
 /**
  * Class for handling routine parameters.
@@ -19,35 +18,35 @@ class RoutineParametersHelper
    *
    * @var DocBlockReflection
    */
-  private $docBlockReflection;
+  private DocBlockReflection $docBlockReflection;
 
   /**
    * The Output decorator.
    *
    * @var StratumStyle
    */
-  private $io;
+  private StratumStyle $io;
 
   /**
    * The offset of the first line of the payload of the stored routine ins the source file.
    *
    * @var int
    */
-  private $offset;
+  private int $offset;
 
   /**
    * The information about the parameters of the stored routine.
    *
    * @var array[]
    */
-  private $routineParameters = [];
+  private array $routineParameters = [];
 
   /**
    * The source code as an array of lines string of the stored routine.
    *
    * @var array
    */
-  private $routineSourceCodeLines;
+  private array $routineSourceCodeLines;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**

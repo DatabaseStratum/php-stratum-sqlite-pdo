@@ -17,16 +17,16 @@ class SqlitePdoDataLayer
   /**
    * The connection the the SQLite database.
    *
-   * @var \PDO
+   * @var \PDO|null
    */
-  private $db;
+  private ?\PDO $db;
 
   /**
    * The path to the SQLite database.
    *
-   * @var string
+   * @var string|null
    */
-  private $path;
+  private ?string $path= null;
 
   /**
    * If true the database will be volatile. That is, the database file be deleted before opening and closing the
@@ -34,10 +34,9 @@ class SqlitePdoDataLayer
    *
    * @var bool
    */
-  private $volatile;
+  private bool $volatile;
 
   //--------------------------------------------------------------------------------------------------------------------
-
   /**
    * Object constructor.
    *
@@ -589,7 +588,14 @@ class SqlitePdoDataLayer
    */
   private function query(string $query, ?array $parameters): \PDOStatement
   {
-    $statement = $this->db->query(($parameters===null) ? $query : strtr($query, $parameters));
+    try
+    {
+      $statement = $this->db->query(($parameters===null) ? $query : strtr($query, $parameters));
+    }
+    catch (\PDOException $exception)
+    {
+      $statement = false;
+    }
     if ($statement===false)
     {
       preg_match('/^(\s*)/', $query, $parts);

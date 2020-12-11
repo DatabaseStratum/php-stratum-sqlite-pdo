@@ -20,56 +20,56 @@ class SqlitePdoRoutineWrapperGeneratorPdoWorker extends SqlitePdoWorker implemen
    *
    * @var PhpCodeStore
    */
-  private $codeStore;
+  private PhpCodeStore $codeStore;
 
   /**
    * Array with fully qualified names that must be imported.
    *
    * @var array
    */
-  private $imports = [];
+  private array $imports = [];
 
   /**
    * The filename of the file with the metadata of all stored procedures.
    *
    * @var string
    */
-  private $metadataFilename;
+  private string $metadataFilename;
 
   /**
    * Class name for mangling routine and parameter names.
    *
-   * @var string
+   * @var string|null
    */
-  private $nameMangler;
+  private ?string $nameMangler;
 
   /**
    * The class name (including namespace) of the parent class of the routine wrapper.
    *
    * @var string
    */
-  private $parentClassName;
+  private string $parentClassName;
 
   /**
    * If true wrapper must declare strict types.
    *
    * @var bool
    */
-  private $strictTypes;
+  private bool $strictTypes;
 
   /**
    * The class name (including namespace) of the routine wrapper.
    *
-   * @var string
+   * @var string|null
    */
-  private $wrapperClassName;
+  private ?string $wrapperClassName;
 
   /**
    * The filename where the generated wrapper class must be stored
    *
    * @var string
    */
-  private $wrapperFilename;
+  private string $wrapperFilename;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**

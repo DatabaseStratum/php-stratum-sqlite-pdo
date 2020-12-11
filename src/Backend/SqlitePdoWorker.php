@@ -18,14 +18,14 @@ class SqlitePdoWorker
    *
    * @var StratumStyle
    */
-  protected $io;
+  protected StratumStyle $io;
 
   /**
    * The settings from the PhpStratum configuration file.
    *
    * @var Config
    */
-  protected $settings;
+  protected Config $settings;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**

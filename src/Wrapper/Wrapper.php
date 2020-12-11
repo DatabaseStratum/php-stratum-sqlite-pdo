@@ -19,31 +19,30 @@ abstract class Wrapper
    *
    * @var PhpCodeStore
    */
-  protected $codeStore;
+  protected PhpCodeStore $codeStore;
 
   /**
    * Array with fully qualified names that must be imported for this wrapper method.
    *
    * @var array
    */
-  protected $imports = [];
+  protected array $imports = [];
 
   /**
    * The name mangler for wrapper and parameter names.
    *
    * @var NameMangler
    */
-  protected $nameMangler;
+  protected NameMangler $nameMangler;
 
   /**
    * The metadata of the stored routine.
    *
    * @var array
    */
-  protected $routine;
+  protected array $routine;
 
   //--------------------------------------------------------------------------------------------------------------------
-
   /**
    * Object constructor.
    *
