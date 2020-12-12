@@ -5,6 +5,9 @@ filter:
     - 'test/'
 
 build:
+  environment:
+    mysql: 5.7
+
   nodes:
     analysis:
       tests:
