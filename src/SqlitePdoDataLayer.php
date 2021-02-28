@@ -545,7 +545,7 @@ class SqlitePdoDataLayer
     }
 
     $exists = is_file($db);
-    if ($volatile and $exists)
+    if ($volatile && $exists)
     {
       unlink($db);
     }
@@ -554,7 +554,7 @@ class SqlitePdoDataLayer
     $this->path     = realpath($db);
     $this->volatile = $volatile;
 
-    if (!$exists && $script!==null)
+    if ($script!==null && ($volatile || !$exists))
     {
       $this->executeNone(file_get_contents($script));
     }

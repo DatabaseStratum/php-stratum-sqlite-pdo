@@ -49,14 +49,39 @@ class InitTest extends DataLayerTestCase
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Test constructor with path and volatile.
+   * Test constructor with path (file does not exists) and volatile.
    */
-  public function testPath2()
+  public function testPath2a()
   {
     $path    = __DIR__.'/test.db';
     $dl      = new SqlitePdoDataLayer($path, 'test/ddl/0100_create_tables.sql', true);
+
     $version = $dl->executeSingleton1('select sqlite_version()');
     self::assertMatchesRegularExpression('/^[0-9.]+$/', $version);
+
+    $count = $dl->executeSingleton1('select count(*) from TST_FOO1');
+    self::assertSame(0, $count);
+
+    $dl->close();
+    self::assertFileDoesNotExist($path);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test constructor with path (file does exists) and volatile.
+   */
+  public function testPath2b()
+  {
+    $path    = __DIR__.'/test.db';
+    touch($path);
+    $dl      = new SqlitePdoDataLayer($path, 'test/ddl/0100_create_tables.sql', true);
+
+    $version = $dl->executeSingleton1('select sqlite_version()');
+    self::assertMatchesRegularExpression('/^[0-9.]+$/', $version);
+
+    $count = $dl->executeSingleton1('select count(*) from TST_FOO1');
+    self::assertSame(0, $count);
+
     $dl->close();
     self::assertFileDoesNotExist($path);
   }
@@ -70,8 +95,14 @@ class InitTest extends DataLayerTestCase
     $path    = __DIR__.'/test.db';
     file_put_contents($path, __METHOD__);
     $dl      = new SqlitePdoDataLayer($path, 'test/ddl/0100_create_tables.sql', true);
+
     $version = $dl->executeSingleton1('select sqlite_version()');
     self::assertMatchesRegularExpression('/^[0-9.]+$/', $version);
+
+
+    $count = $dl->executeSingleton1('select count(*) from TST_FOO1');
+    self::assertSame(0, $count);
+
     $dl->close();
     self::assertFileDoesNotExist($path);
   }
