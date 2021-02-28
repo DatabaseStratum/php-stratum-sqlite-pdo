@@ -58,7 +58,7 @@ class RoutineLoaderHelper
   private array $phpStratumMetadata;
 
   /**
-   * The replace pairs (i.e. placeholders and their actual values, see strst).
+   * The replace pairs (i.e. placeholders and their actual values, see strtr).
    *
    * @var array
    */
