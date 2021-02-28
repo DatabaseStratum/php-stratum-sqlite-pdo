@@ -17,7 +17,7 @@ class SqlitePdoQueryErrorException extends SqlitePdoDataLayerException implement
    *
    * @var string
    */
-  protected $query;
+  protected string $query;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**

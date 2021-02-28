@@ -12,18 +12,11 @@ class SqlitePdoDataLayerException extends \RuntimeException implements DataLayer
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * The error code value of the error.
-   *
-   * @var string
-   */
-  protected $code;
-
-  /**
    * Description of the last error.
    *
    * @var string
    */
-  protected $error;
+  protected string $error;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
