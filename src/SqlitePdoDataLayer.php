@@ -5,6 +5,7 @@ namespace SetBased\Stratum\SqlitePdo;
 
 use SetBased\Exception\FallenException;
 use SetBased\Helper\Cast;
+use SetBased\Stratum\Middle\BulkHandler;
 use SetBased\Stratum\Middle\Exception\ResultException;
 use SetBased\Stratum\SqlitePdo\Exception\SqlitePdoQueryErrorException;
 
@@ -26,7 +27,7 @@ class SqlitePdoDataLayer
    *
    * @var string|null
    */
-  private ?string $path= null;
+  private ?string $path = null;
 
   /**
    * If true the database will be volatile. That is, the database file be deleted before opening and closing the
@@ -114,6 +115,58 @@ class SqlitePdoDataLayer
         unlink($this->path);
       }
     }
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Executes a query that returns 0 or more rows.
+   *
+   * @param BulkHandler $bulkHandler The bulk handler.
+   * @param string      $query       The SQL statement.
+   * @param array|null  $parameters  The parameters (i.e. replace pairs) of the query.
+   *
+   * @since 1.0.0
+   * @api
+   */
+  public function executeBulk(BulkHandler $bulkHandler, string $query, ?array $parameters = null): void
+  {
+    $last      = $this->executeLeadingQueries($query, $parameters);
+    $statement = $this->query($last, $parameters);
+
+    $types = [];
+    for ($i = 0; $i<$statement->columnCount(); $i++)
+    {
+      $types[$i] = $statement->getColumnMeta($i)['native_type'] ?? null;
+    }
+    $hasNumeric = in_array('integer', $types) || in_array('double', $types);
+
+    $bulkHandler->start();
+
+    while ($row = $statement->fetch(\PDO::FETCH_ASSOC))
+    {
+      if ($hasNumeric)
+      {
+        $i = 0;
+        foreach ($row as $key => $value)
+        {
+          switch ($types[$i])
+          {
+            case 'integer':
+              $row[$key] = Cast::toOptInt($value);
+              break;
+
+            case 'double':
+              $row[$key] = Cast::toOptFloat($value);
+              break;
+          }
+          $i++;
+        }
+      }
+
+      $bulkHandler->row($row);
+    }
+
+    $bulkHandler->stop();
   }
 
   //--------------------------------------------------------------------------------------------------------------------

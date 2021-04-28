@@ -1,0 +1,10 @@
+/**
+ * Test for designation type bulk.
+ *
+ * @param int :p_count The number of rows selected.
+ *
+ * @type bulk
+ */
+select *
+from TST_FOO2
+where tst_c00 <= :p_count

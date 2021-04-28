@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace SetBased\Stratum\SqlitePdo\Test;
 
+use SetBased\Stratum\Middle\BulkHandler;
 use SetBased\Stratum\SqlitePdo\SqlitePdoDataLayer;
 
 /**
@@ -139,6 +140,28 @@ EOT;
     $query = str_repeat(PHP_EOL, 10).$query;
 
     $this->executeNone($query, $replace);
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Test for designation type bulk.
+   *
+   * @param BulkHandler $bulkHandler The bulk row handler
+   * @param int|null    $pCount      The number of rows selected.
+   *
+   * @return void
+   */
+  public function tstTestBulk(BulkHandler $bulkHandler, ?int $pCount): void
+  {
+    $replace = [':p_count' => $this->quoteInt($pCount)];
+    $query   = <<< EOT
+select *
+from TST_FOO2
+where tst_c00 <= :p_count
+EOT;
+    $query = str_repeat(PHP_EOL, 7).$query;
+
+    $this->executeBulk($bulkHandler, $query, $replace);
   }
 
   //--------------------------------------------------------------------------------------------------------------------

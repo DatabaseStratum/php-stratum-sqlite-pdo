@@ -71,6 +71,10 @@ abstract class Wrapper
   {
     switch ($routine['designation'])
     {
+      case 'bulk':
+        $wrapper = new BulkWrapper($routine, $codeStore, $nameMangler);
+        break;
+
       case 'lastInsertId':
         $wrapper = new LastInsertIdWrapper($routine, $codeStore, $nameMangler);
         break;
@@ -150,6 +154,36 @@ abstract class Wrapper
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
+   * Enhances the metadata of the parameters of the stored routine wrapper.
+   *
+   * @param array[] $parameters The metadata of the parameters. For each parameter the
+   *                            following keys must be defined:
+   *                            <ul>
+   *                            <li> php_name       The name of the parameter (including $).
+   *                            <li> description    The description of the parameter.
+   *                            <li> php_type       The type of the parameter.
+   *                            </ul>
+   *
+   * @return array[]
+   */
+  protected function enhancePhpDocBlockParameters(array $parameters): array
+  {
+    return $parameters;
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
+   * Enhances the code for the parameters of the wrapper method for the stored routine.
+   *
+   * @param string $code The code of the parameters of the stored routine wrapper.
+   */
+  protected function enhanceWrapperParameters(string $code): string
+  {
+    return $code;
+  }
+
+  //--------------------------------------------------------------------------------------------------------------------
+  /**
    * Returns the return type the be used in the DocBlock.
    *
    * @return string
@@ -172,23 +206,23 @@ abstract class Wrapper
    */
   protected function getWrapperArgs(): string
   {
-    $ret = '';
+    $code = '';
 
     foreach ($this->routine['parameters'] as $parameter)
     {
-      if ($ret!=='') $ret .= ', ';
+      if ($code!=='') $code .= ', ';
 
       $dataType    = DataTypeHelper::columnTypeToPhpTypeHinting($parameter['type']);
       $declaration = DataTypeHelper::phpTypeHintingToPhpTypeDeclaration($dataType.'|null');
       if ($declaration!=='')
       {
-        $ret .= $declaration.' ';
+        $code .= $declaration.' ';
       }
 
-      $ret .= '$'.$this->nameMangler->getParameterName(ltrim($parameter['name'], ':'));
+      $code .= '$'.$this->nameMangler->getParameterName(ltrim($parameter['name'], ':'));
     }
 
-    return $ret;
+    return $this->enhanceWrapperParameters($code);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -277,6 +311,7 @@ abstract class Wrapper
                        'description' => $parameter['description'],
                        'php_type'    => $parameter['php_type']];
     }
+    $parameters = $this->enhancePhpDocBlockParameters($parameters);
 
     if (!empty($parameters))
     {

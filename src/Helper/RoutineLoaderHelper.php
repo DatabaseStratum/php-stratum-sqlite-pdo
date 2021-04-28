@@ -209,7 +209,14 @@ class RoutineLoaderHelper
       throw new RoutineLoaderException('Unable to find the designation type of the stored routine');
     }
 
-    if (!in_array($this->designationType, ['lastInsertId', 'none', 'row0', 'row1', 'rows', 'singleton0', 'singleton1']))
+    if (!in_array($this->designationType, ['bulk',
+                                           'lastInsertId',
+                                           'none',
+                                           'row0',
+                                           'row1',
+                                           'rows',
+                                           'singleton0',
+                                           'singleton1']))
     {
       throw new RoutineLoaderException("'%s' is not a valid designation type", $this->designationType);
     }
@@ -416,8 +423,6 @@ class RoutineLoaderHelper
       $this->offset++;
       array_shift($lines);
     }
-
-
   }
 
   //--------------------------------------------------------------------------------------------------------------------
