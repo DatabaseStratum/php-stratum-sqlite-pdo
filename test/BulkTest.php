@@ -20,42 +20,27 @@ class BulkTest extends DataLayerTestCase
     $output = $this->getActualOutputForAssertion();
     $expected = <<< EOL
 Start
-array(5) {
-  ["tst_c00"]=>
-  int(1)
-  ["tst_c01"]=>
-  string(1) "a"
-  ["tst_c02"]=>
-  string(1) "b"
-  ["tst_c03"]=>
-  string(2) "c1"
-  ["tst_c04"]=>
-  string(1) "d"
-}
-array(5) {
-  ["tst_c00"]=>
-  int(2)
-  ["tst_c01"]=>
-  string(1) "a"
-  ["tst_c02"]=>
-  string(1) "b"
-  ["tst_c03"]=>
-  string(2) "c2"
-  ["tst_c04"]=>
-  string(1) "d"
-}
-array(5) {
-  ["tst_c00"]=>
-  int(3)
-  ["tst_c01"]=>
-  string(1) "a"
-  ["tst_c02"]=>
-  string(1) "b"
-  ["tst_c03"]=>
-  string(2) "c3"
-  ["tst_c04"]=>
-  string(1) "d"
-}
+array (
+  'tst_c00' => 1,
+  'tst_c01' => 'a',
+  'tst_c02' => 'b',
+  'tst_c03' => 'c1',
+  'tst_c04' => 'd',
+)
+array (
+  'tst_c00' => 2,
+  'tst_c01' => 'a',
+  'tst_c02' => 'b',
+  'tst_c03' => 'c2',
+  'tst_c04' => 'd',
+)
+array (
+  'tst_c00' => 3,
+  'tst_c01' => 'a',
+  'tst_c02' => 'b',
+  'tst_c03' => 'c3',
+  'tst_c04' => 'd',
+)
 Stop
 EOL;
     self::assertSame(trim($expected), trim($output));

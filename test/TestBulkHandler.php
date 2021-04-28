@@ -16,7 +16,8 @@ class TestBulkHandler implements BulkHandler
    */
   public function row(array $row): void
   {
-    var_dump($row);
+    var_export($row);
+    echo PHP_EOL;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
