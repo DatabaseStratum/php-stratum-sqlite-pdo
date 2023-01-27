@@ -361,7 +361,13 @@ class SqlitePdoDataLayer
   {
     $query = sprintf("pragma table_info(%s)", $table);
 
-    return $this->executeRows($query);
+    $columns = $this->executeRows($query);
+    foreach ($columns as &$column)
+    {
+      $column['type'] = mb_strtolower($column['type']);
+    }
+
+    return $columns;
   }
 
   //--------------------------------------------------------------------------------------------------------------------
