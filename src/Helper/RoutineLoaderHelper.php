@@ -18,9 +18,9 @@ class RoutineLoaderHelper
   /**
    * The designation type of the stored routine.
    *
-   * @var string
+   * @var string|null
    */
-  private string $designationType;
+  private ?string $designationType = null;
 
   /**
    * An in memory SQLite database.
@@ -58,7 +58,7 @@ class RoutineLoaderHelper
   private array $phpStratumMetadata;
 
   /**
-   * The replace pairs (i.e. placeholders and their actual values, see strtr).
+   * The replacement pairs (i.e. placeholders and their actual values, see strtr).
    *
    * @var array
    */
@@ -121,6 +121,7 @@ class RoutineLoaderHelper
   private string $sourceFilename;
 
   //--------------------------------------------------------------------------------------------------------------------
+
   /**
    * Object constructor.
    *
@@ -172,7 +173,7 @@ class RoutineLoaderHelper
     if ($start!==null && $end!==null && $start<$end)
     {
       $lines    = array_slice($this->routineSourceCodeLines, $start, $end - $start + 1);
-      $docBlock = implode(PHP_EOL, (array)$lines);
+      $docBlock = implode(PHP_EOL, $lines);
     }
     else
     {
@@ -237,7 +238,7 @@ class RoutineLoaderHelper
   /**
    * Extracts routine parameters.
    */
-  private function extractParameters()
+  private function extractParameters(): void
   {
     $this->routineParameters = new RoutineParametersHelper($this->io,
                                                            $this->docBlockReflection,
@@ -363,7 +364,7 @@ class RoutineLoaderHelper
   {
     $this->setMagicConstants();
 
-    // Replace all place holders with their values.
+    // Replace all placeholders with their values.
     $lines = array_slice($this->routineSourceCodeLines, $this->offset);
     foreach ($lines as $i => &$line)
     {
@@ -410,14 +411,9 @@ class RoutineLoaderHelper
   {
     $this->routineSourceCode      = file_get_contents($this->sourceFilename);
     $this->routineSourceCodeLines = explode(PHP_EOL, $this->routineSourceCode);
+    $this->offset                 = $this->getFirstLineOfStoredRoutineBody() - 1;
 
-    if ($this->routineSourceCodeLines===false)
-    {
-      throw new RoutineLoaderException('Source file is empty');
-    }
-
-    $this->offset = $this->getFirstLineOfStoredRoutineBody() - 1;
-    $lines        = array_slice($this->routineSourceCodeLines, $this->offset);
+    $lines                        = array_slice($this->routineSourceCodeLines, $this->offset);
     while (!empty($lines) && trim($lines[0])==='')
     {
       $this->offset++;
@@ -483,15 +479,14 @@ class RoutineLoaderHelper
     }
 
     // The following tests are applicable for singleton0 routines only.
-    if (!in_array($this->designationType, ['singleton0'])) return;
+    if ($this->designationType!=='singleton0') return;
 
     // Return mixed is OK.
     if (in_array($this->returnType, ['bool', 'mixed'])) return;
 
     // In all other cases return type must contain null.
     $parts = explode('|', $this->returnType);
-    $key   = array_search('null', $parts);
-    if ($key===false)
+    if (!in_array('null', $parts))
     {
       throw new RoutineLoaderException("Return type must be 'mixed', 'bool', or contain 'null' (with a combination of 'int', 'float', and 'string')");
     }

@@ -12,7 +12,7 @@ class InsertRowTest extends DataLayerTestCase
   /**
    * Simple test for inserting a row.
    */
-  public function test1()
+  public function test1(): void
   {
     $this->dataLayer->executeNone('
 create table TST_INSERT_ROW
@@ -38,7 +38,7 @@ create table TST_INSERT_ROW
   /**
    * Simple test for inserting multiple rows.
    */
-  public function test2()
+  public function test2(): void
   {
     $this->dataLayer->executeNone('
 create table TST_INSERT_ROW

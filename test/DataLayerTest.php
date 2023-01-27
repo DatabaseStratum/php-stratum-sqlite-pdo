@@ -12,7 +12,7 @@ class DataLayerTest extends DataLayerTestCase
   /**
    * Tests for quoteReal.
    */
-  public function testQuoteFloat1()
+  public function testQuoteFloat1(): void
   {
     $value    = 123.123;
     $expected = '123.123';
@@ -35,7 +35,7 @@ class DataLayerTest extends DataLayerTestCase
   /**
    * Tests for quoteInt.
    */
-  public function testQuoteInt1()
+  public function testQuoteInt1(): void
   {
     $value    = 123;
     $expected = '123';
@@ -54,7 +54,7 @@ class DataLayerTest extends DataLayerTestCase
   /**
    * Tests for quoteVarchar.
    */
-  public function testQuoteString1()
+  public function testQuoteString1(): void
   {
     $value    = '123';
     $expected = "'123'";
@@ -77,7 +77,7 @@ class DataLayerTest extends DataLayerTestCase
   /**
    * Test strtr does not mix up parameters with nearly same name.
    */
-  public function testStrtr()
+  public function testStrtr(): void
   {
     $row = $this->dataLayer->tstStrtr(1, 100, 10);
     self::assertSame(1, $row['p1']);

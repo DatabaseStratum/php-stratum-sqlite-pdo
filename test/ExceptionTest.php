@@ -14,7 +14,7 @@ class ExceptionTest extends DataLayerTestCase
   /**
    * Test with syntax error.
    */
-  public function testSyntaxErrorLineNumberWithQuery()
+  public function testSyntaxErrorLineNumberWithQuery(): void
   {
     try
     {
@@ -43,7 +43,7 @@ EOT;
   /**
    * Test with syntax error.
    */
-  public function testSyntaxErrorLineNumberWithSingleLineQuery()
+  public function testSyntaxErrorLineNumberWithSingleLineQuery(): void
   {
     try
     {
@@ -64,7 +64,7 @@ EOT;
   /**
    * Test with syntax error.
    */
-  public function testSyntaxErrorLineNumberWithMethod()
+  public function testSyntaxErrorLineNumberWithMethod(): void
   {
     try
     {

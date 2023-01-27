@@ -15,7 +15,7 @@ class QuoteTest extends DataLayerTestCase
    * @param string $column The column/parameter name.
    * @param mixed  $value  The value for the column/parameter.
    */
-  public function genericInvalid($column, $value)
+  public function genericInvalid(string $column, mixed $value): void
   {
     try
     {
@@ -42,7 +42,7 @@ class QuoteTest extends DataLayerTestCase
    * @param string $column The column/parameter name.
    * @param mixed  $value  The value for the column/parameter.
    */
-  public function genericValid(string $column, $value)
+  public function genericValid(string $column, mixed $value): void
   {
     $this->dataLayer->tstTest01(($column=='int') ? $value : null,
                                 ($column=='real') ? $value : null,
@@ -55,7 +55,7 @@ class QuoteTest extends DataLayerTestCase
   /**
    * Test illegal values will raise an exception.
    */
-  public function testInvalid()
+  public function testInvalid(): void
   {
     $tests = [];
 
@@ -72,7 +72,7 @@ class QuoteTest extends DataLayerTestCase
   /**
    * Test all column types are quoted properly.
    */
-  public function testValid()
+  public function testValid(): void
   {
     $tests = [];
 

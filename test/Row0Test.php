@@ -14,7 +14,7 @@ class Row0Test extends DataLayerTestCase
   /**
    * Stored routine with designation type row0 must return null.
    */
-  public function test1()
+  public function test1(): void
   {
     $ret = $this->dataLayer->tstTestRow0a(0);
     self::assertNull($ret);
@@ -24,7 +24,7 @@ class Row0Test extends DataLayerTestCase
   /**
    * Stored routine with designation type row0 must return 1 row.
    */
-  public function test2()
+  public function test2(): void
   {
     $ret = $this->dataLayer->tstTestRow0a(1);
     self::assertIsArray($ret);
@@ -34,7 +34,7 @@ class Row0Test extends DataLayerTestCase
   /**
    * An exception must be thrown when a stored routine with designation type row0 returns more than 1 rows.
    */
-  public function test3()
+  public function test3(): void
   {
     $this->expectException(ResultException::class);
     $this->dataLayer->tstTestRow0a(2);

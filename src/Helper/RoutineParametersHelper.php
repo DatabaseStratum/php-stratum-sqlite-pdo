@@ -105,7 +105,7 @@ class RoutineParametersHelper
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Returns the metadata of of all parameters.
+   * Returns the metadata of all parameters.
    *
    * @return array[]
    */
@@ -189,7 +189,7 @@ class RoutineParametersHelper
       $this->io->logNote('Parameter <dbo>%s</dbo> is missing from doc block', $name);
     }
 
-    // Check and show warning if find unknown parameters in doc block.
+    // Check and show a warning if there are unknown parameters in doc block.
     $tmp = array_diff($docBlockParametersNames, $databaseParametersNames);
     foreach ($tmp as $name)
     {

@@ -14,7 +14,7 @@ class Row1Test extends DataLayerTestCase
   /**
    * Stored routine with designation type row1 must return 1 row and 1 row only.
    */
-  public function test1()
+  public function test1(): void
   {
     $ret = $this->dataLayer->tstTestRow1a(1);
     self::assertIsArray($ret);
@@ -24,7 +24,7 @@ class Row1Test extends DataLayerTestCase
   /**
    * An exception must be thrown when a stored routine with designation type row1 returns 0 rows.
    */
-  public function test2()
+  public function test2(): void
   {
     $this->expectException(ResultException::class);
     $this->dataLayer->tstTestRow1a(0);
@@ -34,7 +34,7 @@ class Row1Test extends DataLayerTestCase
   /**
    * An exception must be thrown when a stored routine with designation type row1 returns more than 1 rows.
    */
-  public function test3()
+  public function test3(): void
   {
     $this->expectException(ResultException::class);
     $this->dataLayer->tstTestRow1a(2);
@@ -44,7 +44,7 @@ class Row1Test extends DataLayerTestCase
   /**
    * Test conversion to native type (PDO converts all columns to strings).
    */
-  public function testConversion()
+  public function testConversion(): void
   {
     $row = $this->dataLayer->tstTestRow1Conversion();
     self::assertIsArray($row);
@@ -72,7 +72,7 @@ class Row1Test extends DataLayerTestCase
   /**
    * Test with multiple queries on multiple lines.
    */
-  public function testMultiQueriesMultipleLines()
+  public function testMultiQueriesMultipleLines(): void
   {
     $queries = <<< EOT
 drop table if exists TST_FOOBAR;
@@ -89,7 +89,7 @@ EOT;
   /**
    * Test with multiple queries on multiple lines.
    */
-  public function testSingleQueryWithSemiColon()
+  public function testSingleQueryWithSemiColon(): void
   {
     $queries = 'select 1 as one;';
 
@@ -101,7 +101,7 @@ EOT;
   /**
    * Test with multiple queries on multiple lines.
    */
-  public function testSingleQueryWithoutSemiColon()
+  public function testSingleQueryWithoutSemiColon(): void
   {
     $queries = 'select 1 as one';
 

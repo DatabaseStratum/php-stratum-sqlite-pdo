@@ -14,7 +14,7 @@ class DataTypeHelper
   /**
    * Returns the corresponding PHP type hinting of a parameter type as specified in a DocBlock.
    *
-   * @param string
+   * @param string $dataType The data type.
    *
    * @return string
    */

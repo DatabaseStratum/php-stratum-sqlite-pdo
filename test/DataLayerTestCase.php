@@ -14,9 +14,9 @@ class DataLayerTestCase extends TestCase
   /**
    * The data layer.
    *
-   * @var TestDataLayer
+   * @var TestDataLayer|null
    */
-  protected $dataLayer;
+  protected ?TestDataLayer $dataLayer;
 
   //--------------------------------------------------------------------------------------------------------------------
   /**

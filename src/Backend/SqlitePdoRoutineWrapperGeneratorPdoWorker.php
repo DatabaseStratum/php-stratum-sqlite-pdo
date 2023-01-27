@@ -102,16 +102,16 @@ class SqlitePdoRoutineWrapperGeneratorPdoWorker extends SqlitePdoWorker implemen
     if (!empty($routines))
     {
       // Sort routines by their wrapper method name.
-      $sorted_routines = [];
+      $sortedRoutines = [];
       foreach ($routines as $routine)
       {
-        $method_name                   = $mangler->getMethodName($routine['routine_name']);
-        $sorted_routines[$method_name] = $routine;
+        $methodName                  = $mangler->getMethodName($routine['routine_name']);
+        $sortedRoutines[$methodName] = $routine;
       }
-      ksort($sorted_routines);
+      ksort($sortedRoutines);
 
       // Write methods for each stored routine.
-      foreach ($sorted_routines as $method_name => $routine)
+      foreach ($sortedRoutines as $routine)
       {
         $this->writeRoutineFunction($routine, $mangler);
       }
@@ -208,7 +208,7 @@ class SqlitePdoRoutineWrapperGeneratorPdoWorker extends SqlitePdoWorker implemen
       $this->codeStore->append('');
     }
 
-    // If the child class and parent class have different names import the parent class. Otherwise use the fully
+    // If the child class and parent class have different names import the parent class. Otherwise, use the fully
     // qualified parent class name.
     $parent_class_name = substr($this->parentClassName, strrpos($this->parentClassName, '\\') + 1);
     if ($class_name!=$parent_class_name)

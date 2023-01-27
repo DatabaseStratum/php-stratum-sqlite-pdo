@@ -184,7 +184,7 @@ abstract class Wrapper
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Returns the return type the be used in the DocBlock.
+   * Returns the return type to be used in the DocBlock.
    *
    * @return string
    */

@@ -12,7 +12,7 @@ class BulkTest extends DataLayerTestCase
   /**
    * Stored routine with designation type rows must return an empty array when no rows are selected.
    */
-  public function testBulk()
+  public function testBulk(): void
   {
     $handler  = new TestBulkHandler();
 

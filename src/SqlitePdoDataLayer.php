@@ -16,7 +16,7 @@ class SqlitePdoDataLayer
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * The connection the the SQLite database.
+   * The connection to the SQLite database.
    *
    * @var \PDO|null
    */
@@ -55,7 +55,7 @@ class SqlitePdoDataLayer
    * @since 1.0.0
    * @api
    */
-  public function __construct($db = null, ?string $script = null, bool $volatile = false)
+  public function __construct(mixed $db = null, ?string $script = null, bool $volatile = false)
   {
     switch (true)
     {
@@ -98,14 +98,14 @@ class SqlitePdoDataLayer
   /**
    * Closes the connection to the SQLite database.
    *
-   * PDO closes a database only when there no references to the database. Hence, when a \PDO object has been passed to
-   * the constructor and another references exists to this \PDO object PDO will not close the database. Reopening the
+   * PDO closes a database only when there are no references to the database. Hence, when a \PDO object has been passed
+   * to the constructor and another references exists to this \PDO object PDO will not close the database. Reopening the
    * database will result in a database that is in read only mode.
    *
    * @since 1.0.0
    * @api
    */
-  public function close()
+  public function close(): void
   {
     if ($this->db!==null)
     {
@@ -193,7 +193,7 @@ class SqlitePdoDataLayer
    * @param string     $query      The SQL statement.
    * @param array|null $parameters The parameters (i.e. replace pairs) of the query.
    *
-   * @return array The selected row.
+   * @return array|null The selected row.
    *
    * @since 1.0.0
    * @api
@@ -303,7 +303,7 @@ class SqlitePdoDataLayer
    * @since 1.0.0
    * @api
    */
-  public function executeSingleton0(string $query, ?array $parameters = null)
+  public function executeSingleton0(string $query, ?array $parameters = null): mixed
   {
     $rows = $this->executeRows($query, $parameters);
     $n    = count($rows);
@@ -334,7 +334,7 @@ class SqlitePdoDataLayer
    * @since 1.0.0
    * @api
    */
-  public function executeSingleton1(string $query, ?array $parameters = null)
+  public function executeSingleton1(string $query, ?array $parameters = null): mixed
   {
     $rows = $this->executeRows($query, $parameters);
     $n    = count($rows);
@@ -615,7 +615,7 @@ class SqlitePdoDataLayer
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Initializes this object using a in memory SQLite database.
+   * Initializes this object using an in memory SQLite database.
    *
    * @param string|null $script The path to a SQL script for initializing the database.
    */
@@ -645,7 +645,7 @@ class SqlitePdoDataLayer
     {
       $statement = $this->db->query(($parameters===null) ? $query : strtr($query, $parameters));
     }
-    catch (\PDOException $exception)
+    catch (\PDOException)
     {
       $statement = false;
     }

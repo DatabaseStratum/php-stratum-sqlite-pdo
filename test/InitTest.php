@@ -14,7 +14,7 @@ class InitTest extends DataLayerTestCase
   /**
    * Test in memory database without script.
    */
-  public function testInMemory1()
+  public function testInMemory1(): void
   {
     $dl      = new SqlitePdoDataLayer();
     $version = $dl->executeSingleton1('select sqlite_version()');
@@ -25,7 +25,7 @@ class InitTest extends DataLayerTestCase
   /**
    * Test in memory database with script.
    */
-  public function testInMemory2()
+  public function testInMemory2(): void
   {
     $dl      = new SqlitePdoDataLayer(null, 'test/ddl/0100_create_tables.sql');
     $version = $dl->executeSingleton1('select sqlite_version()');
@@ -37,7 +37,7 @@ class InitTest extends DataLayerTestCase
   /**
    * Test constructor with path.
    */
-  public function testPath1()
+  public function testPath1(): void
   {
     $path    = __DIR__.'/test.db';
     $dl      = new SqlitePdoDataLayer($path);
@@ -49,9 +49,9 @@ class InitTest extends DataLayerTestCase
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Test constructor with path (file does not exists) and volatile.
+   * Test constructor with path (file does not exist) and volatile.
    */
-  public function testPath2a()
+  public function testPath2a(): void
   {
     $path    = __DIR__.'/test.db';
     $dl      = new SqlitePdoDataLayer($path, 'test/ddl/0100_create_tables.sql', true);
@@ -68,9 +68,9 @@ class InitTest extends DataLayerTestCase
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Test constructor with path (file does exists) and volatile.
+   * Test constructor with path (file does exist) and volatile.
    */
-  public function testPath2b()
+  public function testPath2b(): void
   {
     $path    = __DIR__.'/test.db';
     touch($path);
@@ -90,7 +90,7 @@ class InitTest extends DataLayerTestCase
   /**
    *Test constructor with path, volatile, and database exists.
    */
-  public function testPath3()
+  public function testPath3(): void
   {
     $path    = __DIR__.'/test.db';
     file_put_contents($path, __METHOD__);
@@ -111,7 +111,7 @@ class InitTest extends DataLayerTestCase
   /**
    * Test constructor with illegal path.
    */
-  public function testPath4()
+  public function testPath4(): void
   {
     $this->expectException(\InvalidArgumentException::class);
     new SqlitePdoDataLayer('', 'test/ddl/0100_create_tables.sql', false);
@@ -121,7 +121,7 @@ class InitTest extends DataLayerTestCase
   /**
    * Test constructor with \PDO object.
    */
-  public function testPdo()
+  public function testPdo(): void
   {
     $path    = __DIR__.'/test.db';
     $pdo     = new \PDO('sqlite:'.$path);
@@ -136,7 +136,7 @@ class InitTest extends DataLayerTestCase
   /**
    * Test constructor with \PDO object to a MySQL connection.
    */
-  public function testPdoMySql()
+  public function testPdoMySql(): void
   {
     $pdo = new \PDO('mysql:hosts=localhost;dbname=test', 'test', 'test');
 
@@ -148,7 +148,7 @@ class InitTest extends DataLayerTestCase
   /**
    * Test constructor with integer.
    */
-  public function testInt()
+  public function testInt(): void
   {
     $this->expectException(\InvalidArgumentException::class);
     $this->expectExceptionMessage('A integer is not a valid argument.');
@@ -159,7 +159,7 @@ class InitTest extends DataLayerTestCase
   /**
    * Test constructor with an object that is not a \PDO object.
    */
-  public function testObject()
+  public function testObject(): void
   {
     $this->expectException(\InvalidArgumentException::class);
     $this->expectExceptionMessage('A SetBased\Stratum\SqlitePdo\Test\InitTest is not a valid argument.');

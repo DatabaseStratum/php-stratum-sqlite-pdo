@@ -12,7 +12,7 @@ class ExecuteLeadingQueriesTest extends DataLayerTestCase
   /**
    * Trailing comment must be ignored.
    */
-  public function testIgnoreTrainingComment()
+  public function testIgnoreTrainingComment(): void
   {
     $text = $this->dataLayer->tstTestExecuteLeadingQueries();
     self::assertEquals('Hello, world!', $text);
