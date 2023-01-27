@@ -40,6 +40,11 @@ jobs:
       - name: "Install dependencies with Composer"
         run:  "composer update --no-ansi --no-interaction --no-progress"
 
+      - name: "Install MariaDB"
+        uses: "shogo82148/actions-setup-mysql@v1"
+        with:
+          mysql-version: "mariadb-10.4"
+
       - name: "Run tests with PHPUnit"
         run:  "bin/phing unit"
 

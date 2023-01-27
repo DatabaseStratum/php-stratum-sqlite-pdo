@@ -138,7 +138,7 @@ class InitTest extends DataLayerTestCase
    */
   public function testPdoMySql(): void
   {
-    $pdo = new \PDO('mysql:hosts=localhost;dbname=test', 'test', 'test');
+    $pdo = new \PDO('mysql:host=127.0.0.1;dbname=test', 'test', 'test');
 
     $this->expectException(\InvalidArgumentException::class);
     new SqlitePdoDataLayer($pdo);
