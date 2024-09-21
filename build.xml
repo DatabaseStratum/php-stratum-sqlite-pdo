@@ -26,6 +26,7 @@
             <arg value="-x"/>
             <arg value="test/unit-test.sh"/>
         </exec>
+        <delete file="test/etc/routines.json" quiet="true"/>
         <move file="test/psql/rename" tofile="test/psql/ test_escape ' &quot; @ $ ! ." overwrite="true" haltonerror="false"/>
         <exec executable="bin/phpunit" passthru="true" checkreturn="true"/>
         <move file="test/psql/ test_escape ' &quot; @ $ ! ." tofile="test/psql/rename" overwrite="true"/>

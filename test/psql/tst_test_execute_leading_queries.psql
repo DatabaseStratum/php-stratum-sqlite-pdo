@@ -1,8 +1,7 @@
 /**
  * Test comment add end is ignored.
  *
- * @type   singleton1
- * @return string
+ * @type singleton1 text
  */
 create temporary table TMP_FOO(x int);
 

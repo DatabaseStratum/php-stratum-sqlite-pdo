@@ -3,47 +3,52 @@ declare(strict_types=1);
 
 namespace SetBased\Stratum\SqlitePdo\Wrapper;
 
+use SetBased\Stratum\Common\Wrapper\Helper\WrapperContext;
 use SetBased\Stratum\Middle\BulkHandler;
 
 /**
  * Class for generating a wrapper method for a stored routine selecting a large number of rows.
  */
-class BulkWrapper extends Wrapper
+class BulkWrapper extends SqlitePdoWrapper
 {
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * @inheritdoc
    */
-  protected function enhancePhpDocBlockParameters(array $parameters): array
+  protected function enhancePhpDocBlockParameters(array &$parameters): void
   {
     $this->imports[] = BulkHandler::class;
 
-    $parameter = ['php_name'    => '$bulkHandler',
-                  'description' => ['The bulk row handler'],
-                  'php_type'    => 'BulkHandler'];
+    $parameter = ['php_name'       => '$bulkHandler',
+                  'description'    => 'The bulk row handler.',
+                  'php_type'       => 'BulkHandler',
+                  'dtd_identifier' => null];
 
-    return array_merge([$parameter], $parameters);
+    $parameters = array_merge([$parameter], $parameters);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * @inheritdoc
    */
-  protected function enhanceWrapperParameters(string $code): string
+  protected function generateResultHandler(WrapperContext $context): void
   {
-    if ($code!=='')
+    $context->codeStore->append('');
+    if ($this->hasRoutineArgs($context))
     {
-      $code = ', '.$code;
+      $context->codeStore->append('$this->executeBulk($bulkHandler, $query, $replace);');
     }
-
-    return 'BulkHandler $bulkHandler'.$code;
+    else
+    {
+      $context->codeStore->append('$this->executeBulk($bulkHandler, $query);');
+    }
   }
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
    * @inheritdoc
    */
-  protected function getDocBlockReturnType(): string
+  protected function getDocBlockReturnType(WrapperContext $context): string
   {
     return 'void';
   }
@@ -52,26 +57,9 @@ class BulkWrapper extends Wrapper
   /**
    * @inheritdoc
    */
-  protected function getReturnTypeDeclaration(): string
+  protected function getReturnTypeDeclaration(WrapperContext $context): string
   {
     return ': void';
-  }
-
-  //--------------------------------------------------------------------------------------------------------------------
-  /**
-   * @inheritdoc
-   */
-  protected function writeResultHandler(): void
-  {
-    $this->codeStore->append('');
-    if ($this->hasRoutineArgs())
-    {
-      $this->codeStore->append('$this->executeBulk($bulkHandler, $query, $replace);');
-    }
-    else
-    {
-      $this->codeStore->append('$this->executeBulk($bulkHandler, $query);');
-    }
   }
 
   //--------------------------------------------------------------------------------------------------------------------

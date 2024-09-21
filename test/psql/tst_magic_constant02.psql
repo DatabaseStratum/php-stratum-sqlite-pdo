@@ -1,7 +1,6 @@
 /**
  * Test for magic constant.
  *
- * @type   singleton1
- * @return int
+ * @type singleton1 int
  */
 select __LINE__;

@@ -22,7 +22,7 @@ class TestDataLayer extends SqlitePdoDataLayer
     $query = <<< EOT
 select 'tst_magic_constant01';
 EOT;
-    $query = str_repeat(PHP_EOL, 6).$query;
+    $query = str_repeat(PHP_EOL, 5).$query;
 
     return $this->executeSingleton1($query);
   }
@@ -36,9 +36,9 @@ EOT;
   public function tstMagicConstant02(): int
   {
     $query = <<< EOT
-select 7;
+select 6;
 EOT;
-    $query = str_repeat(PHP_EOL, 6).$query;
+    $query = str_repeat(PHP_EOL, 5).$query;
 
     return $this->executeSingleton1($query);
   }
@@ -52,9 +52,9 @@ EOT;
   public function tstMagicConstant03(): string
   {
     $query = <<< EOT
-select '/opt/Projects/DatabaseStratum/php-stratum-sqlite-pdo/test/psql/tst_magic_constant03.psql';
+select '/opt/Projects/DatabaseStratum/PHP/php-stratum-sqlite-pdo/test/psql/tst_magic_constant03.psql';
 EOT;
-    $query = str_repeat(PHP_EOL, 6).$query;
+    $query = str_repeat(PHP_EOL, 5).$query;
 
     return $this->executeSingleton1($query);
   }
@@ -68,9 +68,9 @@ EOT;
   public function tstMagicConstant04(): string
   {
     $query = <<< EOT
-select '/opt/Projects/DatabaseStratum/php-stratum-sqlite-pdo/test/psql';
+select '/opt/Projects/DatabaseStratum/PHP/php-stratum-sqlite-pdo/test/psql';
 EOT;
-    $query = str_repeat(PHP_EOL, 6).$query;
+    $query = str_repeat(PHP_EOL, 5).$query;
 
     return $this->executeSingleton1($query);
   }
@@ -84,9 +84,9 @@ EOT;
   public function tstMagicConstant05(): string
   {
     $query = <<< EOT
-select '/opt/Projects/DatabaseStratum/php-stratum-sqlite-pdo/test/psql/ test_escape '' " @ $ ! .';
+select '/opt/Projects/DatabaseStratum/PHP/php-stratum-sqlite-pdo/test/psql/ test_escape '' " @ $ ! .';
 EOT;
-    $query = str_repeat(PHP_EOL, 6).$query;
+    $query = str_repeat(PHP_EOL, 5).$query;
 
     return $this->executeSingleton1($query);
   }
@@ -96,14 +96,19 @@ EOT;
    * Test strtr does not mix up parameters with nearly same name.
    *
    * @param int|null $p1   Parameter of type int.
+   *                       int
    * @param int|null $p100 Parameter of type int.
+   *                       int
    * @param int|null $p10  Parameter of type int.
+   *                       int
    *
    * @return array
    */
   public function tstStrtr(?int $p1, ?int $p100, ?int $p10): array
   {
-    $replace = [':p1' => $this->quoteInt($p1), ':p100' => $this->quoteInt($p100), ':p10' => $this->quoteInt($p10)];
+    $replace = [':p1' => $this->quoteInt($p1),
+                ':p100' => $this->quoteInt($p100),
+                ':p10' => $this->quoteInt($p10)];
     $query   = <<< EOT
 select :p1   as p1
 ,      :p100 as p100a
@@ -120,13 +125,20 @@ EOT;
    * Test for all possible types of parameters including BLOBs.
    *
    * @param int|null    $pTstInt  Parameter of type int.
+   *                              int
    * @param float|null  $pTstReal Parameter of type real.
+   *                              real
    * @param string|null $pTstText Parameter of type text.
+   *                              text
    * @param string|null $pTstBlob Parameter of type blob.
+   *                              blob
    */
   public function tstTest01(?int $pTstInt, ?float $pTstReal, ?string $pTstText, ?string $pTstBlob): void
   {
-    $replace = [':p_tst_int' => $this->quoteInt($pTstInt), ':p_tst_real' => $this->quoteReal($pTstReal), ':p_tst_text' => $this->quoteVarchar($pTstText), ':p_tst_blob' => $this->quoteBlob($pTstBlob)];
+    $replace = [':p_tst_int' => $this->quoteInt($pTstInt),
+                ':p_tst_real' => $this->quoteReal($pTstReal),
+                ':p_tst_text' => $this->quoteText($pTstText),
+                ':p_tst_blob' => $this->quoteBlob($pTstBlob)];
     $query   = <<< EOT
 insert into TST_FOO1( tst_int
 ,                     tst_real
@@ -146,8 +158,9 @@ EOT;
   /**
    * Test for designation type bulk.
    *
-   * @param BulkHandler $bulkHandler The bulk row handler
+   * @param BulkHandler $bulkHandler The bulk row handler.
    * @param int|null    $pCount      The number of rows selected.
+   *                                 int
    *
    * @return void
    */
@@ -183,7 +196,7 @@ select 'Hello, world!';
  * This is a trailing comment.
  */
 EOT;
-    $query = str_repeat(PHP_EOL, 6).$query;
+    $query = str_repeat(PHP_EOL, 5).$query;
 
     return $this->executeSingleton1($query);
   }
@@ -213,12 +226,13 @@ EOT;
    * Test case for designation type lastIncrementId.
    *
    * @param string|null $pTstTest Some value.
+   *                              text
    *
    * @return int
    */
   public function tstTestLastIncrementId(?string $pTstTest): int
   {
-    $replace = [':p_tst_test' => $this->quoteVarchar($pTstTest)];
+    $replace = [':p_tst_test' => $this->quoteText($pTstTest)];
     $query   = <<< EOT
 insert into TST_LAST_INCREMENT_ID( tst_test )
 values( :p_tst_test )
@@ -251,7 +265,8 @@ EOT;
    * @param int|null $pCount The number of rows selected.
    *                         * 0 For a valid test.
    *                         * 1 For a valid test.
-   *                         * 2 For a invalid test.
+   *                         * 2 For an invalid test.
+   *                         int
    *
    * @return array|null
    */
@@ -296,9 +311,10 @@ EOT;
    * Test for designation type row1.
    *
    * @param int|null $pCount The number of rows selected.
-   *                         * 0 For a invalid test.
+   *                         * 0 For an invalid test.
    *                         * 1 For a valid test.
-   *                         * 2 For a invalid test.
+   *                         * 2 For an invalid test.
+   *                         int
    *
    * @return array
    */
@@ -320,6 +336,7 @@ EOT;
    * Test for designation type rows.
    *
    * @param int|null $pCount The number of rows selected.
+   *                         int
    *
    * @return array[]
    */
@@ -343,7 +360,8 @@ EOT;
    * @param int|null $pCount The number of rows selected.
    *                         * 0 For a valid test.
    *                         * 1 For a valid test.
-   *                         * 2 For a invalid test.
+   *                         * 2 For an invalid test.
+   *                         int
    *
    * @return int|null
    */
@@ -355,7 +373,7 @@ select 1
 from TST_FOO2
 where tst_c00 <= :p_count
 EOT;
-    $query = str_repeat(PHP_EOL, 11).$query;
+    $query = str_repeat(PHP_EOL, 10).$query;
 
     return $this->executeSingleton0($query, $replace);
   }
@@ -367,20 +385,23 @@ EOT;
    * @param int|null $pCount The number of rows selected.
    *                         * 0 For a valid test.
    *                         * 1 For a valid test.
-   *                         * 2 For a invalid test.
+   *                         * 2 For an invalid test.
+   *                         int
    * @param int|null $pValue The selected value.
+   *                         int
    *
    * @return bool
    */
   public function tstTestSingleton0b(?int $pCount, ?int $pValue): bool
   {
-    $replace = [':p_count' => $this->quoteInt($pCount), ':p_value' => $this->quoteInt($pValue)];
+    $replace = [':p_count' => $this->quoteInt($pCount),
+                ':p_value' => $this->quoteInt($pValue)];
     $query   = <<< EOT
 select :p_value
 from TST_FOO2
 where tst_c00 <= :p_count
 EOT;
-    $query = str_repeat(PHP_EOL, 12).$query;
+    $query = str_repeat(PHP_EOL, 11).$query;
 
     return !empty($this->executeSingleton0($query, $replace));
   }
@@ -390,9 +411,10 @@ EOT;
    * Test for designation type singleton1.
    *
    * @param int|null $pCount The number of rows selected.
-   *                         * 0 For a invalid test.
+   *                         * 0 For an invalid test.
    *                         * 1 For a valid test.
-   *                         * 2 For a invalid test.
+   *                         * 2 For an invalid test.
+   *                         int
    *
    * @return int
    */
@@ -404,7 +426,7 @@ select 1
 from TST_FOO2
 where tst_c00 <= :p_count
 EOT;
-    $query = str_repeat(PHP_EOL, 11).$query;
+    $query = str_repeat(PHP_EOL, 10).$query;
 
     return $this->executeSingleton1($query, $replace);
   }
@@ -414,22 +436,25 @@ EOT;
    * Test for designation type singleton1 with return type bool.
    *
    * @param int|null $pCount The number of rows selected.
-   *                         * 0 For a invalid test.
+   *                         * 0 For an invalid test.
    *                         * 1 For a valid test.
-   *                         * 2 For a invalid test.
+   *                         * 2 For an invalid test.
+   *                         int
    * @param int|null $pValue The selected value.
+   *                         int
    *
    * @return bool
    */
   public function tstTestSingleton1b(?int $pCount, ?int $pValue): bool
   {
-    $replace = [':p_count' => $this->quoteInt($pCount), ':p_value' => $this->quoteInt($pValue)];
+    $replace = [':p_count' => $this->quoteInt($pCount),
+                ':p_value' => $this->quoteInt($pValue)];
     $query   = <<< EOT
 select :p_value
 from TST_FOO2
 where tst_c00 <= :p_count
 EOT;
-    $query = str_repeat(PHP_EOL, 12).$query;
+    $query = str_repeat(PHP_EOL, 11).$query;
 
     return !empty($this->executeSingleton1($query, $replace));
   }

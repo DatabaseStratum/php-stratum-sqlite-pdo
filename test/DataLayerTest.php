@@ -52,25 +52,25 @@ class DataLayerTest extends DataLayerTestCase
 
   //--------------------------------------------------------------------------------------------------------------------
   /**
-   * Tests for quoteVarchar.
+   * Tests for quoteText.
    */
   public function testQuoteString1(): void
   {
     $value    = '123';
     $expected = "'123'";
-    self::assertSame($expected, $this->dataLayer->quoteVarchar($value), var_export($value, true));
+    self::assertSame($expected, $this->dataLayer->quoteText($value), var_export($value, true));
 
     $value    = '0';
     $expected = "'0'";
-    self::assertSame($expected, $this->dataLayer->quoteVarchar($value), var_export($value, true));
+    self::assertSame($expected, $this->dataLayer->quoteText($value), var_export($value, true));
 
     $value    = '';
     $expected = 'null';
-    self::assertSame($expected, $this->dataLayer->quoteVarchar($value), var_export($value, true));
+    self::assertSame($expected, $this->dataLayer->quoteText($value), var_export($value, true));
 
     $value    = null;
     $expected = 'null';
-    self::assertSame($expected, $this->dataLayer->quoteVarchar($value), var_export($value, true));
+    self::assertSame($expected, $this->dataLayer->quoteText($value), var_export($value, true));
   }
 
   //--------------------------------------------------------------------------------------------------------------------

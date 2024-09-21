@@ -27,10 +27,10 @@ class SqlitePdoBackend extends Backend
   /**
    * @inheritDoc
    */
-  public function createRoutineWrapperGeneratorWorker(Config $settings,
+  public function createRoutineWrapperGeneratorWorker(Config       $settings,
                                                       StratumStyle $io): ?RoutineWrapperGeneratorWorker
   {
-    return new SqlitePdoRoutineWrapperGeneratorPdoWorker($settings, $io);
+    return new SqlitePdoRoutineWrapperGeneratorWorker($settings, $io);
   }
 
   //--------------------------------------------------------------------------------------------------------------------

@@ -25,7 +25,7 @@ class MagicConstantTest extends DataLayerTestCase
   public function test2(): void
   {
     $ret = $this->dataLayer->tstMagicConstant02();
-    self::assertEquals(7, $ret);
+    self::assertEquals(6, $ret);
   }
 
   //--------------------------------------------------------------------------------------------------------------------

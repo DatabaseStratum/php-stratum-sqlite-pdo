@@ -77,7 +77,10 @@ class SqlitePdoDataLayer
       default:
         // Argument is invalid.
         $type = gettype($db);
-        if ($type==='object') $type = get_class($db);
+        if ($type==='object')
+        {
+          $type = get_class($db);
+        }
         throw new \InvalidArgumentException(sprintf('A %s is not a valid argument.', $type));
     }
   }
@@ -414,7 +417,10 @@ class SqlitePdoDataLayer
    */
   public function insertRows(string $table, array $rows): void
   {
-    if (empty($rows)) return;
+    if (empty($rows))
+    {
+      return;
+    }
 
     $columns = $this->getTableColumns($table);
 
@@ -482,7 +488,10 @@ class SqlitePdoDataLayer
    */
   public function quoteBlob(?string $value): string
   {
-    if ($value===null || $value==='') return 'null';
+    if ($value===null || $value==='')
+    {
+      return 'null';
+    }
 
     return "X'".bin2hex($value)."'";
   }
@@ -497,7 +506,10 @@ class SqlitePdoDataLayer
    */
   public function quoteInt(?int $value): string
   {
-    if ($value===null) return 'null';
+    if ($value===null)
+    {
+      return 'null';
+    }
 
     return (string)$value;
   }
@@ -512,7 +524,10 @@ class SqlitePdoDataLayer
    */
   public function quoteReal(?float $value): string
   {
-    if ($value===null) return 'null';
+    if ($value===null)
+    {
+      return 'null';
+    }
 
     return (string)$value;
   }
@@ -525,9 +540,14 @@ class SqlitePdoDataLayer
    *
    * @return string
    */
-  public function quoteVarchar(?string $value): string
+  public function quoteText(?string $value): string
   {
-    return ($value===null || $value==='') ? 'null' : $this->db->quote($value);
+    if ($value===null || $value==='')
+    {
+      return 'null';
+    }
+
+    return $this->db->quote($value);
   }
 
   //--------------------------------------------------------------------------------------------------------------------
@@ -600,7 +620,7 @@ class SqlitePdoDataLayer
   {
     if ($db==='')
     {
-      throw new \InvalidArgumentException('Expecting a non empty path.');
+      throw new \InvalidArgumentException('Expecting a non-empty path.');
     }
 
     $exists = is_file($db);
@@ -685,7 +705,7 @@ class SqlitePdoDataLayer
         return $this->quoteInt($value);
 
       case 'varchar':
-        return $this->quoteVarchar($value);
+        return $this->quoteText($value);
 
       case 'text':
       case 'blob':

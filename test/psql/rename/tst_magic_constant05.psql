@@ -1,7 +1,6 @@
 /**
  * Test for magic constant.
  *
- * @type   singleton1
- * @return string
+ * @type singleton1 text
  */
 select __DIR__;

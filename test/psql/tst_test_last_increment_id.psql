@@ -1,7 +1,7 @@
 /**
  * Test case for designation type lastIncrementId.
  *
- * @param varchar :p_tst_test Some value.
+ * @param text :p_tst_test Some value.
  *
  * @type lastInsertId
  */
