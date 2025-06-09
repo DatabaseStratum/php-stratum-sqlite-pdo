@@ -15,17 +15,17 @@
     "php": ">=8.3",
     "ext-json": "*",
     "ext-pdo": "*",
-    "setbased/exception": "^2.5.0",
-    "setbased/helper-cast": "^3.0.1",
-    "setbased/helper-code-store-php": "^2.7.0",
-    "setbased/php-stratum-backend": "^6.2.0",
-    "setbased/php-stratum-common": "^7.2.0",
-    "setbased/php-stratum-middle": "^5.13.0"
+    "setbased/exception": "^2.6.0",
+    "setbased/helper-cast": "^3.1.0",
+    "setbased/helper-code-store-php": "^2.8.0",
+    "setbased/php-stratum-backend": "^6.3.1",
+    "setbased/php-stratum-common": "^7.3.0",
+    "setbased/php-stratum-middle": "^5.14.0"
   },
   "require-dev": {
     "phing/phing": "^3.0.1",
     "phpunit/phpunit": "^11.5.22",
-    "setbased/php-stratum": "^6.4.0"
+    "setbased/php-stratum": "^6.5.0"
   },
   "autoload": {
     "psr-4": {
